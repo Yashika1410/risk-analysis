@@ -9,6 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.ColumnTransformer;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,9 +31,14 @@ public class RiskScoreLevel {
     private int id;
     @Column(name = "score", nullable = false)
     @NonNull
+    @NotNull(message = "Score is mandatory")
+    @NotEmpty(message = "Score is mandatory")
     private String score;
-    @Column(name = "level")
+    @Column(name = "`level`")
+    @ColumnTransformer(write = "LOWER(?)",read = "LOWER(`level`)")
     @NonNull
+    @NotNull(message = "Level is mandatory")
+    @NotEmpty(message = "Level is mandatory")
     private String level;
 
     public boolean inRange(double value) {

@@ -1,6 +1,7 @@
 package com.example.riskanalysis.service;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +44,16 @@ public class RiskAnalysisService {
     private RiskScoreLevelRepo riskScoreLevelRepo;
     @Autowired
     private OutputRepo outputRepo;
+    /**
+     *
+     */
+    public final static Logger log = LoggerFactory.getLogger(RiskAnalysisService.class);
 
+    /**
+     * 
+     */
     public void saveAnalysiedData() {
+        log.info("Data Analysis Job Started at: " + LocalDateTime.now());
         Map<Integer, String> numbers = new HashMap<>();
         numbers.put(0, "zero");
         numbers.put(1, "one");
@@ -67,7 +78,9 @@ public class RiskAnalysisService {
             variables.set("conduct", companyRiskScore.getConduct());
             try {
                 levels.add(riskScoreLevels.stream().filter(v -> Objects.equals(true, v.inRange(
-                        companyRiskScore.getInformationSecurity()))).findAny().orElse(null).getLevel().toLowerCase());
+                        companyRiskScore.getInformationSecurity()))).findAny().orElse(
+                                null)
+                        .getLevel().toLowerCase());
                 levels.add(riskScoreLevels.stream().filter(v -> Objects.equals(true, v.inRange(
                         companyRiskScore.getResilience()))).findAny().orElse(null).getLevel().toLowerCase());
                 levels.add(riskScoreLevels.stream().filter(v -> Objects.equals(true, v.inRange(
@@ -91,8 +104,10 @@ public class RiskAnalysisService {
             result.put("company_name", companyRiskScore.getCompanyName());
             try {
                 formulas.forEach(formula -> {
-                    result.put(formula.getEntityName(), doubleEvaluator.evaluate(formula.getFormula(), variables));
-                    variables.set(formula.getEntityName(), (Double) result.get(formula.getEntityName()));
+                    result.put(formula.getEntityName(), doubleEvaluator.evaluate(
+                            formula.getFormula(), variables));
+                    variables.set(formula.getEntityName(), (Double) result.get(
+                            formula.getEntityName()));
                 });
             } catch (Exception e) {
                 e.printStackTrace();
@@ -103,6 +118,8 @@ public class RiskAnalysisService {
                 Output output = mapper.convertValue(result, Output.class);
                 // result.put("String", output.toString());
                 outputRepo.save(output);
+                log.info("Data Analysis Job Completed at: " + LocalDateTime.now());
+
             } catch (Exception e) {
                 // TODO: handle exception
                 e.printStackTrace();
@@ -111,6 +128,9 @@ public class RiskAnalysisService {
         });
     }
 
+    /**
+     * @return List<Output>
+     */
     public List<Output> getOutputList() {
         return outputRepo.getLatestData();
     }

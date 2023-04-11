@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +26,12 @@ public class Weight {
     private int id;
     @Column(name = "dimension", nullable = false)
     @NonNull
+    @NotNull(message = "Dimension is mandatory")
+    @NotEmpty(message = "Dimension is mandatory")
     private String dimension;
     @Column(name = "weight")
     @NonNull
+    @NotNull(message = "Weight is mandatory")
+    @NotEmpty(message = "Weight is mandatory")
     private double weight;
 }

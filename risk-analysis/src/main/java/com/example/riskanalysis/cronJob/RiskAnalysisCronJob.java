@@ -14,7 +14,7 @@ public class RiskAnalysisCronJob {
     @Autowired
     private RiskAnalysisService riskAnalysisService;
 
-    @Scheduled(cron = "0 0/1 * * * *")
+    @Scheduled(cron = "0 0 */1 * * *")
     public void cronJob() {
         System.out.println("Started Job to store data");
         riskAnalysisService.saveAnalysiedData();
