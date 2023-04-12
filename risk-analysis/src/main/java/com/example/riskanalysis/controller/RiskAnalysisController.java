@@ -48,7 +48,7 @@ public class RiskAnalysisController {
     public ResponseEntity<?> startProcess() {
         try {
             executor.execute(() -> {
-                riskAnalysisService.saveAnalysiedData();
+                riskAnalysisService.saveAnalysiedData("API");
             });
             return ResponseEntity.accepted().body("Started Process");
         } catch (Exception e) {

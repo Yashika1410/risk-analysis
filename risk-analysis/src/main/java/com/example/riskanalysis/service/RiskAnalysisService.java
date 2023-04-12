@@ -14,12 +14,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.riskanalysis.entity.AnalysisJobTrasaction;
 import com.example.riskanalysis.entity.CompanyRiskScore;
 import com.example.riskanalysis.entity.Formula;
 import com.example.riskanalysis.entity.Output;
 import com.example.riskanalysis.entity.RiskScoreCap;
 import com.example.riskanalysis.entity.RiskScoreLevel;
 import com.example.riskanalysis.entity.Weight;
+import com.example.riskanalysis.repository.AnalysisJobTrasactionRepo;
 import com.example.riskanalysis.repository.CompanyRiskScoreRepo;
 import com.example.riskanalysis.repository.FormulaRepo;
 import com.example.riskanalysis.repository.OutputRepo;
@@ -44,6 +46,8 @@ public class RiskAnalysisService {
     private RiskScoreLevelRepo riskScoreLevelRepo;
     @Autowired
     private OutputRepo outputRepo;
+    @Autowired
+    private AnalysisJobTrasactionRepo analysisJobTrasactionRepo;
     /**
      *
      */
@@ -52,80 +56,99 @@ public class RiskAnalysisService {
     /**
      * 
      */
-    public void saveAnalysiedData() {
+    public void saveAnalysiedData(String triggerBy) {
         log.info("Data Analysis Job Started at: " + LocalDateTime.now());
+        AnalysisJobTrasaction newAnalysisJobTrasaction=new AnalysisJobTrasaction();
+        newAnalysisJobTrasaction.setStartedAt(new Timestamp(System.currentTimeMillis()));
+        newAnalysisJobTrasaction.setTriggerBy(triggerBy);
+        newAnalysisJobTrasaction.setStatus("Started");
+        AnalysisJobTrasaction analysisJobTrasaction=analysisJobTrasactionRepo.save(newAnalysisJobTrasaction);
+        try {
+            // getting all the data from data base
+            List<Weight> weights = (List<Weight>) weightRepo.findAll();
+            List<RiskScoreLevel> riskScoreLevels = (List<RiskScoreLevel>) riskScoreLevelRepo.findAll();
+            List<RiskScoreCap> riskScoreCaps = (List<RiskScoreCap>) riskScoreCapRepo.findAll();
+            List<Formula> formulas = (List<Formula>) formulaRepo.findAll();
+            List<CompanyRiskScore> companyRiskScores = (List<CompanyRiskScore>) companyRiskScoreRepo.findAll();
+
+            DoubleEvaluator doubleEvaluator = new DoubleEvaluator();
+            StaticVariableSet<Double> variableSet = new StaticVariableSet<Double>();
+
+            weights.forEach(weight -> {
+                variableSet.set(weight.getDimension(), weight.getWeight());
+            });
+
+            companyRiskScores.forEach(companyRiskScore -> {
+                // Setting Company risk score values
+                variableSet.set("information_security", companyRiskScore.getInformationSecurity());
+                variableSet.set("resilince", companyRiskScore.getResilience());
+                variableSet.set("conduct", companyRiskScore.getConduct());
+
+                // getting total risk capped score and setting it
+                variableSet.set("total_risk_capped_score",
+                        getTotalRiskCappedScore(riskScoreCaps, riskScoreLevels, companyRiskScore));
+                Map<String, Object> result = new HashMap<>();
+                result.put("company_name", companyRiskScore.getCompanyName());
+                
+                // calculating data using formulas present in formula table
+                formulas.forEach(formula -> {
+                    result.put(formula.getEntityName(), doubleEvaluator.evaluate(
+                            formula.getFormula(), variableSet));
+                    variableSet.set(formula.getEntityName(), (Double) result.get(
+                            formula.getEntityName()));
+                });
+                final ObjectMapper mapper = new ObjectMapper();
+                result.put("timestamp", new Timestamp(System.currentTimeMillis()));
+                Output output = mapper.convertValue(result, Output.class);
+                // saving the result
+                outputRepo.save(output);
+                log.info("Successfully Anaylised and saved data in table for " + companyRiskScore.getCompanyName()
+                        + " company");
+            });
+            analysisJobTrasaction.setEndedAt(new Timestamp(System.currentTimeMillis()));
+            analysisJobTrasaction.setStatus("Completed");
+            analysisJobTrasactionRepo.save(analysisJobTrasaction);
+            log.info("Data Analysis Job Completed at: " + LocalDateTime.now());
+        } catch (Exception e) {
+            // TODO: handle exception
+            analysisJobTrasaction.setEndedAt(new Timestamp(System.currentTimeMillis()));
+            analysisJobTrasaction.setStatus("Failed");
+            analysisJobTrasactionRepo.save(analysisJobTrasaction);
+            e.printStackTrace();
+            log.error(e.getMessage(), e.getCause());
+        }
+    }
+
+    private double getTotalRiskCappedScore(List<RiskScoreCap> riskScoreCaps, List<RiskScoreLevel> riskScoreLevels,
+            CompanyRiskScore companyRiskScore) {
         Map<Integer, String> numbers = new HashMap<>();
         numbers.put(0, "zero");
         numbers.put(1, "one");
         numbers.put(2, "two");
         numbers.put(3, "three");
-
-        DoubleEvaluator doubleEvaluator = new DoubleEvaluator();
-        StaticVariableSet<Double> variables = new StaticVariableSet<Double>();
-        List<Weight> weights = (List<Weight>) weightRepo.findAll();
-
-        weights.forEach(weight -> {
-            variables.set(weight.getDimension(), weight.getWeight());
-        });
-        List<RiskScoreLevel> riskScoreLevels = (List<RiskScoreLevel>) riskScoreLevelRepo.findAll();
-        List<RiskScoreCap> riskScoreCaps = (List<RiskScoreCap>) riskScoreCapRepo.findAll();
-        List<Formula> formulas = (List<Formula>) formulaRepo.findAll();
-        List<CompanyRiskScore> companyRiskScores = (List<CompanyRiskScore>) companyRiskScoreRepo.findAll();
-        companyRiskScores.forEach(companyRiskScore -> {
-            List<String> levels = new ArrayList<>();
-            variables.set("information_security", companyRiskScore.getInformationSecurity());
-            variables.set("resilince", companyRiskScore.getResilience());
-            variables.set("conduct", companyRiskScore.getConduct());
-            try {
-                levels.add(riskScoreLevels.stream().filter(v -> Objects.equals(true, v.inRange(
-                        companyRiskScore.getInformationSecurity()))).findAny().orElse(
-                                null)
-                        .getLevel().toLowerCase());
-                levels.add(riskScoreLevels.stream().filter(v -> Objects.equals(true, v.inRange(
-                        companyRiskScore.getResilience()))).findAny().orElse(null).getLevel().toLowerCase());
-                levels.add(riskScoreLevels.stream().filter(v -> Objects.equals(true, v.inRange(
-                        companyRiskScore.getConduct()))).findAny().orElse(null).getLevel().toLowerCase());
-            } catch (Exception e) {
-                // TODO: handle exception
-                e.printStackTrace();
+        List<String> levels = new ArrayList<>();
+        // getting level for each Company risk score
+        levels.add(getLevel(riskScoreLevels, companyRiskScore.getInformationSecurity()));
+        levels.add(getLevel(riskScoreLevels, companyRiskScore.getResilience()));
+        levels.add(getLevel(riskScoreLevels, companyRiskScore.getConduct()));
+        double totalRiskCappedScore = 100.0;
+        for (RiskScoreCap riskScoreCap : riskScoreCaps) {
+            String[] split = riskScoreCap.getCondition().split(" ", 2);
+            String conditionCount = split[0].toLowerCase();
+            String condition = split[1].toLowerCase();
+            int frequency = Collections.frequency(levels, condition);
+            if (numbers.get(frequency).equals(conditionCount)) {
+                totalRiskCappedScore = Math.min(totalRiskCappedScore, riskScoreCap.getCappedScore());
             }
-            double totalRiskCappedScore = 100.0;
-            for (RiskScoreCap riskScoreCap : riskScoreCaps) {
-                String[] split = riskScoreCap.getCondition().split(" ", 2);
-                String conditionCount = split[0].toLowerCase();
-                String condition = split[1].toLowerCase();
-                int frequency = Collections.frequency(levels, condition);
-                if (numbers.get(frequency).equals(conditionCount)) {
-                    totalRiskCappedScore = Math.min(totalRiskCappedScore, riskScoreCap.getCappedScore());
-                }
-            }
-            variables.set("total_risk_capped_score", totalRiskCappedScore);
-            Map<String, Object> result = new HashMap<>();
-            result.put("company_name", companyRiskScore.getCompanyName());
-            try {
-                formulas.forEach(formula -> {
-                    result.put(formula.getEntityName(), doubleEvaluator.evaluate(
-                            formula.getFormula(), variables));
-                    variables.set(formula.getEntityName(), (Double) result.get(
-                            formula.getEntityName()));
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            final ObjectMapper mapper = new ObjectMapper();
-            try {
-                result.put("timestamp", new Timestamp(System.currentTimeMillis()));
-                Output output = mapper.convertValue(result, Output.class);
-                // result.put("String", output.toString());
-                outputRepo.save(output);
-                log.info("Data Analysis Job Completed at: " + LocalDateTime.now());
+        }
+        return totalRiskCappedScore;
+    }
 
-            } catch (Exception e) {
-                // TODO: handle exception
-                e.printStackTrace();
-            }
-
-        });
+    private String getLevel(List<RiskScoreLevel> riskScoreLevels, double value) {
+        return riskScoreLevels.stream().filter(v -> Objects.equals(true, v.inRange(
+                value))).findAny().orElse(
+                        null)
+                .getLevel().toLowerCase();
     }
 
     /**
