@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.riskanalysis.entity.RiskScoreCap;
+import com.example.riskanalysis.entity.RiskScoreLevel;
+import com.example.riskanalysis.requestObject.RiskScoreCapModel;
 import com.example.riskanalysis.service.RiskScoreCapService;
+import com.example.riskanalysis.service.RiskScoreLevelService;
 
 @RestController
 @RequestMapping("/api/v1/risk-score-caps")
@@ -27,6 +30,8 @@ public class RiskScoreCapController {
     final static Logger log = LoggerFactory.getLogger(RiskScoreCapController.class);
     @Autowired
     private RiskScoreCapService riskScoreCapService;
+    @Autowired
+    private RiskScoreLevelService riskScoreLevelService;
 
     /**
      * @param id
@@ -65,8 +70,14 @@ public class RiskScoreCapController {
      * @return RiskScoreCap
      */
     @PostMapping("")
-    public RiskScoreCap createRiskScoreCap(@Valid @RequestBody RiskScoreCap riskScoreCap) {
+    public RiskScoreCap createRiskScoreCap(@Valid @RequestBody RiskScoreCapModel riskScoreCapModel) {
         try {
+            RiskScoreLevel riskScoreLevel = riskScoreLevelService
+                    .getRiskScoreLevel(riskScoreCapModel.getRiskScoreLevelId());
+            RiskScoreCap riskScoreCap = new RiskScoreCap();
+            riskScoreCap.setCappedScore(riskScoreCapModel.getCappedScore());
+            riskScoreCap.setConditionCnt(riskScoreCapModel.getConditionCnt());
+            riskScoreCap.setRiskScoreLevel(riskScoreLevel);
             return riskScoreCapService.addRiskScoreCap(riskScoreCap);
         } catch (ResponseStatusException re) {
             log.error(re.getMessage());
@@ -84,7 +95,7 @@ public class RiskScoreCapController {
      * @return RiskScoreCap
      */
     @PatchMapping("/{id}")
-    public RiskScoreCap patchRiskScoreCap(@PathVariable int id,@Valid @RequestBody RiskScoreCap riskScoreCap) {
+    public RiskScoreCap patchRiskScoreCap(@PathVariable int id, @Valid @RequestBody RiskScoreCap riskScoreCap) {
         try {
             return riskScoreCapService.updateRiskScoreCap(id, riskScoreCap);
         } catch (ResponseStatusException re) {

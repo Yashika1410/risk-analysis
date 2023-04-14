@@ -43,12 +43,12 @@ public class RiskScoreCapService {
      * @param riskScoreCap
      * @return
      */
-    public RiskScoreCap updateRiskScoreCap(int id,RiskScoreCap riskScoreCap) {
+    public RiskScoreCap updateRiskScoreCap(int id, RiskScoreCap riskScoreCap) {
         RiskScoreCap exsistingRiskScoreCap = riskScoreCapRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         ("Risk Score Cap is not found by this id " + id)));
         exsistingRiskScoreCap.setCappedScore(riskScoreCap.getCappedScore());
-        exsistingRiskScoreCap.setCondition(riskScoreCap.getCondition());
+        exsistingRiskScoreCap.setConditionCnt(riskScoreCap.getConditionCnt());
         riskScoreCapRepo.save(exsistingRiskScoreCap);
         return exsistingRiskScoreCap;
     }

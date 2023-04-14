@@ -40,7 +40,6 @@ public class CompanyRiskScore {
      */
     @Column(name = "information_security")
     @NonNull
-    @NotEmpty(message = "information security is mandatory")
     @NotNull(message = "information security is mandatory")
     private double informationSecurity;
     /**
@@ -48,7 +47,6 @@ public class CompanyRiskScore {
      */
     @Column(name = "resilince")
     @NonNull
-    @NotEmpty(message = "resilience is mandatory")
     @NotNull(message = "resilience is mandatory")
     private double resilience;
     /**
@@ -56,7 +54,6 @@ public class CompanyRiskScore {
      */
     @Column(name = "conduct")
     @NonNull
-    @NotEmpty(message = "Conduct is mandatory")
     @NotNull(message = "Conduct is mandatory")
     private double conduct;
 

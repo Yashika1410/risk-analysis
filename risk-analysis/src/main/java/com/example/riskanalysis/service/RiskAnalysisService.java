@@ -58,11 +58,11 @@ public class RiskAnalysisService {
      */
     public void saveAnalysiedData(String triggerBy) {
         log.info("Data Analysis Job Started at: " + LocalDateTime.now());
-        AnalysisJobTrasaction newAnalysisJobTrasaction=new AnalysisJobTrasaction();
+        AnalysisJobTrasaction newAnalysisJobTrasaction = new AnalysisJobTrasaction();
         newAnalysisJobTrasaction.setStartedAt(new Timestamp(System.currentTimeMillis()));
         newAnalysisJobTrasaction.setTriggerBy(triggerBy);
         newAnalysisJobTrasaction.setStatus("Started");
-        AnalysisJobTrasaction analysisJobTrasaction=analysisJobTrasactionRepo.save(newAnalysisJobTrasaction);
+        AnalysisJobTrasaction analysisJobTrasaction = analysisJobTrasactionRepo.save(newAnalysisJobTrasaction);
         try {
             // getting all the data from data base
             List<Weight> weights = (List<Weight>) weightRepo.findAll();
@@ -89,7 +89,7 @@ public class RiskAnalysisService {
                         getTotalRiskCappedScore(riskScoreCaps, riskScoreLevels, companyRiskScore));
                 Map<String, Object> result = new HashMap<>();
                 result.put("company_name", companyRiskScore.getCompanyName());
-                
+
                 // calculating data using formulas present in formula table
                 formulas.forEach(formula -> {
                     result.put(formula.getEntityName(), doubleEvaluator.evaluate(
@@ -119,13 +119,14 @@ public class RiskAnalysisService {
         }
     }
 
+    /**
+     * @param riskScoreCaps
+     * @param riskScoreLevels
+     * @param companyRiskScore
+     * @return int totalRiskCappedScore
+     */
     private double getTotalRiskCappedScore(List<RiskScoreCap> riskScoreCaps, List<RiskScoreLevel> riskScoreLevels,
             CompanyRiskScore companyRiskScore) {
-        Map<Integer, String> numbers = new HashMap<>();
-        numbers.put(0, "zero");
-        numbers.put(1, "one");
-        numbers.put(2, "two");
-        numbers.put(3, "three");
         List<String> levels = new ArrayList<>();
         // getting level for each Company risk score
         levels.add(getLevel(riskScoreLevels, companyRiskScore.getInformationSecurity()));
@@ -133,11 +134,8 @@ public class RiskAnalysisService {
         levels.add(getLevel(riskScoreLevels, companyRiskScore.getConduct()));
         double totalRiskCappedScore = 100.0;
         for (RiskScoreCap riskScoreCap : riskScoreCaps) {
-            String[] split = riskScoreCap.getCondition().split(" ", 2);
-            String conditionCount = split[0].toLowerCase();
-            String condition = split[1].toLowerCase();
-            int frequency = Collections.frequency(levels, condition);
-            if (numbers.get(frequency).equals(conditionCount)) {
+            int frequency = Collections.frequency(levels, riskScoreCap.getRiskScoreLevel().getLevel());
+            if (riskScoreCap.getConditionCnt() == frequency) {
                 totalRiskCappedScore = Math.min(totalRiskCappedScore, riskScoreCap.getCappedScore());
             }
         }

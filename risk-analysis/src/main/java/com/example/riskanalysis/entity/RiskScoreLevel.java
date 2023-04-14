@@ -34,8 +34,8 @@ public class RiskScoreLevel {
     @NotNull(message = "Score is mandatory")
     @NotEmpty(message = "Score is mandatory")
     private String score;
-    @Column(name = "`level`")
-    @ColumnTransformer(write = "LOWER(?)",read = "LOWER(`level`)")
+    @Column(name = "`level`", unique = true)
+    @ColumnTransformer(write = "LOWER(?)", read = "LOWER(`level`)")
     @NonNull
     @NotNull(message = "Level is mandatory")
     @NotEmpty(message = "Level is mandatory")

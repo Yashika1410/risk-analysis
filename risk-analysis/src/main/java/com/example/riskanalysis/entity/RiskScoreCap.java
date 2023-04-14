@@ -5,12 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.ColumnTransformer;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -26,17 +24,19 @@ public class RiskScoreCap {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "`condition`")
-    @ColumnTransformer(write = "LOWER(?)", read = "LOWER(`condition`)")
+
+    @Column(name = "condition_count")
     @NonNull
-    @NotNull(message = "Condition is mandatory")
-    @NotEmpty(message = "Condition is mandatory")
-    private String condition;
+    @NotNull(message = "Condition Count is mandatory")
+    private int conditionCnt;
 
     @Column(name = "capped_score")
     @NonNull
     @NotNull(message = "Capped Score is mandatory")
-    @NotEmpty(message = "Capped Score is mandatory")
     private double cappedScore;
 
+    @NonNull
+    @JoinColumn(name = "condition_level")
+    @ManyToOne
+    private RiskScoreLevel riskScoreLevel;
 }
