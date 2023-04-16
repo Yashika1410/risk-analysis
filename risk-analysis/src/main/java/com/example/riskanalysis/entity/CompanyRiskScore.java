@@ -43,7 +43,7 @@ public class CompanyRiskScore {
     /**
      *
      */
-    @JoinColumn(name = "dimension_score", nullable = false)
+    @JoinColumn(name = "dimension_score_company_id", nullable = false)
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Score> dimensionScores;
 
