@@ -50,9 +50,10 @@ public class CompanyRiskScoreService {
         CompanyRiskScore existingCompanyRiskScore = companyRiskScoreRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Company Risk Score Not Found by this id " + id));
-        existingCompanyRiskScore.setInformationSecurity(companyRiskScore.getInformationSecurity());
-        existingCompanyRiskScore.setConduct(companyRiskScore.getConduct());
-        existingCompanyRiskScore.setResilience(companyRiskScore.getResilience());
+        existingCompanyRiskScore.setDimensionScores(companyRiskScore.getDimensionScores());
+        // existingCompanyRiskScore.setInformationSecurity(companyRiskScore.getInformationSecurity());
+        // existingCompanyRiskScore.setConduct(companyRiskScore.getConduct());
+        // existingCompanyRiskScore.setResilience(companyRiskScore.getResilience());
         ;
         companyRiskScoreRepo.save(existingCompanyRiskScore);
         return existingCompanyRiskScore;

@@ -1,10 +1,15 @@
 package com.example.riskanalysis.entity;
 
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -15,7 +20,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Entity
-@Table(name = "company_risk_score")
+@Table(name = "new_company_risk_score")
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -38,23 +43,8 @@ public class CompanyRiskScore {
     /**
      *
      */
-    @Column(name = "information_security")
-    @NonNull
-    @NotNull(message = "information security is mandatory")
-    private double informationSecurity;
-    /**
-     *
-     */
-    @Column(name = "resilince")
-    @NonNull
-    @NotNull(message = "resilience is mandatory")
-    private double resilience;
-    /**
-     *
-     */
-    @Column(name = "conduct")
-    @NonNull
-    @NotNull(message = "Conduct is mandatory")
-    private double conduct;
+    @JoinColumn(name = "dimension_score", nullable = false)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Score> dimensionScores;
 
 }

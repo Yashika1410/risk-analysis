@@ -20,6 +20,7 @@ import com.example.riskanalysis.entity.Formula;
 import com.example.riskanalysis.entity.Output;
 import com.example.riskanalysis.entity.RiskScoreCap;
 import com.example.riskanalysis.entity.RiskScoreLevel;
+import com.example.riskanalysis.entity.Score;
 import com.example.riskanalysis.entity.Weight;
 import com.example.riskanalysis.repository.AnalysisJobTrasactionRepo;
 import com.example.riskanalysis.repository.CompanyRiskScoreRepo;
@@ -80,9 +81,13 @@ public class RiskAnalysisService {
 
             companyRiskScores.forEach(companyRiskScore -> {
                 // Setting Company risk score values
-                variableSet.set("information_security", companyRiskScore.getInformationSecurity());
-                variableSet.set("resilince", companyRiskScore.getResilience());
-                variableSet.set("conduct", companyRiskScore.getConduct());
+                for (Score score : companyRiskScore.getDimensionScores()) {
+                    variableSet.set(score.getDimension(), score.getScore());
+                }
+                // variableSet.set("information_security",
+                // companyRiskScore.getInformationSecurity());
+                // variableSet.set("resilince", companyRiskScore.getResilience());
+                // variableSet.set("conduct", companyRiskScore.getConduct());
 
                 // getting total risk capped score and setting it
                 variableSet.set("total_risk_capped_score",
@@ -129,9 +134,12 @@ public class RiskAnalysisService {
             CompanyRiskScore companyRiskScore) {
         List<String> levels = new ArrayList<>();
         // getting level for each Company risk score
-        levels.add(getLevel(riskScoreLevels, companyRiskScore.getInformationSecurity()));
-        levels.add(getLevel(riskScoreLevels, companyRiskScore.getResilience()));
-        levels.add(getLevel(riskScoreLevels, companyRiskScore.getConduct()));
+        for (Score score : companyRiskScore.getDimensionScores())
+            levels.add(getLevel(riskScoreLevels, score.getScore()));
+        // levels.add(getLevel(riskScoreLevels,
+        // companyRiskScore.getInformationSecurity()));
+        // levels.add(getLevel(riskScoreLevels, companyRiskScore.getResilience()));
+        // levels.add(getLevel(riskScoreLevels, companyRiskScore.getConduct()));
         double totalRiskCappedScore = 100.0;
         for (RiskScoreCap riskScoreCap : riskScoreCaps) {
             int frequency = Collections.frequency(levels, riskScoreCap.getRiskScoreLevel().getLevel());
