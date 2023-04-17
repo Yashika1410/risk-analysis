@@ -19,7 +19,7 @@ public class CompanyRiskScoreService {
      * @param id
      * @return CompanyRiskScore
      */
-    public CompanyRiskScore getCompanyRiskScore(int id) {
+    public CompanyRiskScore getCompanyRiskScore(final int id) {
         return companyRiskScoreRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Company Risk Score Not Found by this id " + id));
@@ -46,7 +46,7 @@ public class CompanyRiskScoreService {
      * @param companyRiskScore
      * @return CompanyRiskScore
      */
-    public CompanyRiskScore updateCompanyRiskScore(int id, CompanyRiskScore companyRiskScore) {
+    public CompanyRiskScore updateCompanyRiskScore(final int id, CompanyRiskScore companyRiskScore) {
         CompanyRiskScore existingCompanyRiskScore = companyRiskScoreRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Company Risk Score Not Found by this id " + id));
@@ -62,7 +62,7 @@ public class CompanyRiskScoreService {
      * @param id
      * @return String message
      */
-    public String deleteCompanyRiskScore(int id) {
+    public String deleteCompanyRiskScore(final int id) {
         CompanyRiskScore companyRiskScore = companyRiskScoreRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Company Risk Score Not Found by this id " + id));

@@ -21,7 +21,7 @@ public class WeightService {
      * @return weight object
      * @throws ResponseStatusException({@link HttpStatus.Series},{@value String}})
      */
-    public Weight getWeight(int id) {
+    public Weight getWeight(final int id) {
         return weightRepo.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 "Weight Not Found by this id " + id));
     }
@@ -49,7 +49,7 @@ public class WeightService {
      * @param weight
      * @return updated Weight object
      */
-    public Weight updateWeight(int id,Weight weight) {
+    public Weight updateWeight(final int id,Weight weight) {
         Weight existingWeight = weightRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Weight Not Found by this id " + id));
@@ -64,7 +64,7 @@ public class WeightService {
      * @return String
      * @throws ResponseStatusException(HttpStatus.NOT_FOUND, "Weight Not Found by this id " + id)
      */
-    public String deleteWeight(int id) {
+    public String deleteWeight(final int id) {
         Weight weight = weightRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Weight Not Found by this id " + id));

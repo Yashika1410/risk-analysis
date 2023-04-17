@@ -19,7 +19,7 @@ public class RiskScoreCapService {
      * @param id
      * @return
      */
-    public RiskScoreCap getRiskScoreCap(int id) {
+    public RiskScoreCap getRiskScoreCap(final int id) {
         return riskScoreCapRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 ("Risk Score Cap is not found by this id " + id)));
     }
@@ -43,7 +43,7 @@ public class RiskScoreCapService {
      * @param riskScoreCap
      * @return
      */
-    public RiskScoreCap updateRiskScoreCap(int id, RiskScoreCap riskScoreCap) {
+    public RiskScoreCap updateRiskScoreCap(final int id, RiskScoreCap riskScoreCap) {
         RiskScoreCap exsistingRiskScoreCap = riskScoreCapRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         ("Risk Score Cap is not found by this id " + id)));
@@ -57,7 +57,7 @@ public class RiskScoreCapService {
      * @param id
      * @return
      */
-    public String deleteRiskScoreCap(int id) {
+    public String deleteRiskScoreCap(final int id) {
         RiskScoreCap riskScoreCap = riskScoreCapRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         ("Risk Score Cap is not found by this id " + id)));
