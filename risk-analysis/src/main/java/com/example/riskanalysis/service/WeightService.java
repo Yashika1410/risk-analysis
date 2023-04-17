@@ -19,20 +19,20 @@ public class WeightService {
     /**
      * @param id
      * @return weight object
-     * @throws ResponseStatusException({@link HttpStatus.Series},{@value String}})
+     * @throws ResponseStatusException({@link HttpStatus},{@value String}})
      */
-    public Weight getWeight(int id) {
-        return weightRepo.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                "Weight Not Found by this id " + id));
+    public Weight getWeight(final int id) {
+        return weightRepo.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Weight Not Found by this id " + id));
     }
-
 
     /**
      * @param weight
      * @return weight object
      */
     public Weight addWeight(Weight weight) {
-            return weightRepo.save(weight);
+        return weightRepo.save(weight);
     }
 
     /**
@@ -43,13 +43,12 @@ public class WeightService {
         return (List<Weight>) weightRepo.findAll();
     }
 
-   
     /**
      * @param id
      * @param weight
      * @return updated Weight object
      */
-    public Weight updateWeight(int id,Weight weight) {
+    public Weight updateWeight(final int id, Weight weight) {
         Weight existingWeight = weightRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Weight Not Found by this id " + id));
@@ -62,7 +61,8 @@ public class WeightService {
     /**
      * @param id
      * @return String
-     * @throws ResponseStatusException(HttpStatus.NOT_FOUND, "Weight Not Found by this id " + id)
+     * @throws ResponseStatusException(HttpStatus.NOT_FOUND, "Weight Not Found by
+     *                                                       this id " + id)
      */
     public String deleteWeight(int id) {
         Weight weight = weightRepo.findById(id).orElseThrow(
@@ -71,5 +71,5 @@ public class WeightService {
         weightRepo.delete(weight);
         return "Successfully deleted weight by this id " + id;
     }
-    
+
 }

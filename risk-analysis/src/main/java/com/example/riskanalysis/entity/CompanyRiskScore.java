@@ -43,6 +43,8 @@ public class CompanyRiskScore {
     /**
      *
      */
+    @NotNull(message = "Dimension score is mandatory")
+    @NotEmpty(message = "Dimesion score is mandatory")
     @JoinColumn(name = "dimension_score_company_id", nullable = false)
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Score> dimensionScores;

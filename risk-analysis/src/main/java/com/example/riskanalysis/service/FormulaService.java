@@ -34,10 +34,10 @@ public class FormulaService {
      */
     public Formula addFormula(Formula formula) {
         if (formulaRepo.existsByEntityName(formula.getEntityName())) {
-            return formulaRepo.save(formula);
-        } else
             throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "Formula already exists by " +  (" this entity name " + formula.getEntityName()));
+                    "Formula already exists by " + (" this entity name " + formula.getEntityName()));
+        }
+        return formulaRepo.save(formula);
     }
 
     /**
@@ -52,7 +52,7 @@ public class FormulaService {
      * @param formula
      * @return updated Formula object
      */
-    public Formula updateFormula(int id,Formula formula) {
+    public Formula updateFormula(int id, Formula formula) {
         Formula existingFormula = formulaRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Formula Not Found by this id " + id));
@@ -71,11 +71,11 @@ public class FormulaService {
      * @param id
      * @return String message
      */
-    public String deleteFormula(int id){
-        Formula formula=formulaRepo.findById(id).orElseThrow(
+    public String deleteFormula(int id) {
+        Formula formula = formulaRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Formula Not Found by this id " + id));
         formulaRepo.delete(formula);
-        return "Successfully deleted formula by this id "+id;
+        return "Successfully deleted formula by this id " + id;
     }
 }

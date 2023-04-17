@@ -33,17 +33,17 @@ public class RiskScoreLevelService {
 
     public RiskScoreLevel addRiskScoreLevel(RiskScoreLevel riskScoreLevel) {
         if (riskScoreLevelRepo.existsByLevel(riskScoreLevel.getLevel().toLowerCase())) {
-            return riskScoreLevelRepo.save(riskScoreLevel);
-        } else
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Risk Score Level already exists by " + (" this level " + riskScoreLevel.getLevel()));
+        }
+        return riskScoreLevelRepo.save(riskScoreLevel);
     }
 
     /**
      * @param riskScoreLevel
      * @return RiskScoreLevel
      */
-    public RiskScoreLevel updateRiskScoreLevel(int id,RiskScoreLevel riskScoreLevel) {
+    public RiskScoreLevel updateRiskScoreLevel(int id, RiskScoreLevel riskScoreLevel) {
         RiskScoreLevel existingRiskScoreLevel = riskScoreLevelRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Risk Score Level not found by this id " + id));
