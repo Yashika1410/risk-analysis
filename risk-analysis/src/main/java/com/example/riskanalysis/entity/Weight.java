@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.ColumnTransformer;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -24,6 +26,7 @@ public class Weight {
     @Column(name = "id")
     private int id;
     @Column(name = "dimension", nullable = false)
+    @ColumnTransformer(write = "LOWER(?)", read = "LOWER(dimension)")
     @NonNull
     @NotNull(message = "Dimension is mandatory")
     private String dimension;

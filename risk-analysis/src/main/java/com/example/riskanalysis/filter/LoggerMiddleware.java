@@ -1,4 +1,4 @@
-package com.example.riskanalysis.component;
+package com.example.riskanalysis.filter;
 
 import java.io.IOException;
 import javax.servlet.FilterChain;

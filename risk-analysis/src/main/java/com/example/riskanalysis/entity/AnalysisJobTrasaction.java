@@ -1,8 +1,11 @@
 package com.example.riskanalysis.entity;
 
 import java.sql.Timestamp;
+import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,4 +32,10 @@ public class AnalysisJobTrasaction {
     @Column(name = "status")
     private String status;
 
+    @ElementCollection
+    private Set<Integer> listOfFailedCompaniesId;
+    @Column(name = "total_companies")
+    private long totalCompanies;
+    @Column(name = "processed_companies")
+    private long processedCompanies;
 }

@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnTransformer;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -24,6 +26,7 @@ public class Score {
     private int id;
     @NonNull
     @Column(name = "dimension", nullable = false)
+    @ColumnTransformer(write = "LOWER(?)", read = "LOWER(dimension)")
     private String dimension;
     @Column(name = "score", nullable = false)
     @NonNull
