@@ -17,6 +17,10 @@ jobs:
       contents: read
       packages: write
 
+    env:
+      MYSQL_DB_USERNAME: ${{ secrets.MYSQL_DB_USERNAME }}
+      MYSQL_DB_PASSWORD: ${{ secrets.MYSQL_DB_PASSWORD }}
+      spring_profiles_active: github
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 11
@@ -31,7 +35,7 @@ jobs:
       with:
         mysql version: '8.0' # Optional, default value is "latest". The version of the MySQL
         mysql database: 'company' # Optional, default value is "test". The specified database which will be create
-        mysql root password: root # Required if "mysql user" is empty, default is empty. The root superuser password
+        mysql root password: ${{ secrets.MYSQL_DB_PASSWORD }}  # Required if "mysql user" is empty, default is empty. The root superuser password
 
     - name: Build with Maven
       run: mvn -B package --file ./risk-analysis/pom.xml
