@@ -1,28 +1,30 @@
-package com.example.riskanalysis.cronJob;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+package com.example.riskanalysis.cronjob;
 
 import com.example.riskanalysis.repository.OutputRepo;
 import com.example.riskanalysis.service.RiskAnalysisService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+/**
+ * component class used to schdule a job.
+ */
 
 @Component
 public class RiskAnalysisCronJob {
-    @Autowired
+  @Autowired
     private OutputRepo outputRepo;
-    @Autowired
+  @Autowired
     private RiskAnalysisService riskAnalysisService;
 
-    @Scheduled(cron = "0 0 */1 * * *")
+  @Scheduled(cron = "0 0 */1 * * *")
     public void cronJob() {
-        System.out.println("Started Job to store data");
-        riskAnalysisService.saveAnalysiedData("Cron Job");
-    }
+    System.out.println("Started Job to store data");
+    riskAnalysisService.saveAnalysiedData("Cron Job");
+  }
 
-    @Scheduled(cron = "0 25 03 * * *")
+  @Scheduled(cron = "0 25 03 * * *")
     public void emptyOutput() {
-        System.out.println("empty All");
-        outputRepo.deleteAll();
-    }
+    System.out.println("empty All");
+    outputRepo.deleteAll();
+  }
 }

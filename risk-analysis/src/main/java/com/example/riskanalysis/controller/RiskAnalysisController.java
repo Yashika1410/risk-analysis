@@ -1,9 +1,10 @@
 package com.example.riskanalysis.controller;
 
+import com.example.riskanalysis.entity.Output;
+import com.example.riskanalysis.service.RiskAnalysisService;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,48 +16,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.riskanalysis.entity.Output;
-import com.example.riskanalysis.service.RiskAnalysisService;
-
+/**
+ * creating RiskAnalysisController class to perform crud operations.
+ */
 @RestController
 @RequestMapping("/api/v1/risk-analysis")
 public class RiskAnalysisController {
-    final static Logger log = LoggerFactory.getLogger(RiskAnalysisController.class);
+  final Logger log = LoggerFactory.getLogger(RiskAnalysisController.class);
 
-    @Autowired
+  @Autowired
     private RiskAnalysisService riskAnalysisService;
 
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+  private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    /**
-     * @return List<Output>
-     */
-    @GetMapping("/get-data")
+  /**
+   * get data from riskAnalysisService.
+
+   * @return List(Output)
+   */
+  @GetMapping("/get-data")
     public List<Output> getData() {
-        try {
-            return riskAnalysisService.getOutputList();
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-
-        }
+    try {
+      return riskAnalysisService.getOutputList();
+    } catch (Exception e) {
+            
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
 
     }
 
-    @PostMapping("/start-process")
+  }
+  /**
+ * starting the process by triggering the API.
+
+ * @return
+ * 
+ */
+  @PostMapping("/start-process")
     public ResponseEntity<?> startProcess() {
-        try {
-            executor.execute(() -> {
-                riskAnalysisService.saveAnalysiedData("API");
-            });
-            return ResponseEntity.accepted().body("Started Process");
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
-
+    try {
+      executor.execute(() -> {
+        riskAnalysisService.saveAnalysiedData("API");
+      });
+      return ResponseEntity.accepted().body("Started Process");
+    } catch (Exception e) {
+          
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+
+  }
 
 }

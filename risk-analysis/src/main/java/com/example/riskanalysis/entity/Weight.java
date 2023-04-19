@@ -7,13 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.ColumnTransformer;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.ColumnTransformer;
+/**
+ * entity class which represents weight table.
+ */
 
 @Entity
 @Table(name = "weight")
@@ -21,17 +22,17 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Weight {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
     private int id;
-    @Column(name = "dimension", nullable = false)
-    @ColumnTransformer(write = "LOWER(?)", read = "LOWER(dimension)")
-    @NonNull
-    @NotNull(message = "Dimension is mandatory")
+  @Column(name = "dimension", nullable = false)
+  @ColumnTransformer(write = "LOWER(?)", read = "LOWER(dimension)")
+  @NonNull
+  @NotNull(message = "Dimension is mandatory")
     private String dimension;
-    @Column(name = "weight")
-    @NonNull
-    @NotNull(message = "Weight is mandatory")
+  @Column(name = "weight")
+
+  @NotNull(message = "Weight is mandatory")
     private double weight;
 }

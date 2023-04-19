@@ -1,9 +1,9 @@
 package com.example.riskanalysis.controller;
 
+import com.example.riskanalysis.entity.Formula;
+import com.example.riskanalysis.service.FormulaService;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,100 +18,115 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.riskanalysis.entity.Formula;
-import com.example.riskanalysis.service.FormulaService;
-
+/**
+ * creating FormulaController class to perform crud operations.
+ */
 @RestController
 @RequestMapping("/api/v1/formulas")
 public class FormulaController {
-    final static Logger log = LoggerFactory.getLogger(FormulaController.class);
-    @Autowired
+  final Logger log = LoggerFactory.getLogger(FormulaController.class);
+  @Autowired
     private FormulaService formulaService;
 
-    /**
+  /**
+     * getting formula using id.
+
      * @param id
+     * 
      * @return Formula
      */
-    @GetMapping("/{id}")
+  @GetMapping("/{id}")
     public Formula getFormula(@PathVariable int id) {
-        try {
-            return formulaService.getFormula(id);
-        } catch (ResponseStatusException re) {
-            log.error(re.getMessage());
-            throw new ResponseStatusException(re.getStatus(), re.getMessage());
-        } catch (Exception e) {
-            // TODO: handle exception
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
-
+    try {
+      return formulaService.getFormula(id);
+    } catch (ResponseStatusException re) {
+      log.error(re.getMessage());
+      throw new ResponseStatusException(re.getStatus(), re.getMessage());
+    } catch (Exception e) {
+            
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
-    /**
-     * @return List<Formula>
+  }
+
+  /**
+     * getting list of all formulas.
+
+     * @return List(Formula)
      */
-    @GetMapping("")
+  @GetMapping("")
     public List<Formula> getListofFormulas() {
-        try {
-            return formulaService.getAllFormulas();
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    try {
+      return formulaService.getAllFormulas();
+    } catch (Exception e) {
+           
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+  }
 
-    /**
+  /**
+     * create formula using formulaService.
+
      * @param formula
+     * 
      * @return Formula
      */
-    @PostMapping("")
+  @PostMapping("")
     public Formula createFormula(@Valid @RequestBody Formula formula) {
-        try {
-            return formulaService.addFormula(formula);
-        } catch (ResponseStatusException re) {
-            log.error(re.getMessage());
-            throw new ResponseStatusException(re.getStatus(), re.getMessage());
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    try {
+      return formulaService.addFormula(formula);
+    } catch (ResponseStatusException re) {
+      log.error(re.getMessage());
+      throw new ResponseStatusException(re.getStatus(), re.getMessage());
+    } catch (Exception e) {
+          
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+  }
 
-    /**
+  /**
+     * updating formula using id.
+
      * @param id
+     * 
      * @param formula
+     * 
      * @return Formula
      */
-    @PatchMapping("/{id}")
+  @PatchMapping("/{id}")
     public Formula patchFormula(@PathVariable int id, @RequestBody Formula formula) {
-        try {
-            return formulaService.updateFormula(id, formula);
-        } catch (ResponseStatusException re) {
-            log.error(re.getMessage());
-            throw new ResponseStatusException(re.getStatus(), re.getMessage());
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    try {
+      return formulaService.updateFormula(id, formula);
+    } catch (ResponseStatusException re) {
+      log.error(re.getMessage());
+      throw new ResponseStatusException(re.getStatus(), re.getMessage());
+    } catch (Exception e) {
+            
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+  }
 
-    /**
+  /**
+     * delete formula using id.
+
      * @param id
+     * 
      * @return String
      */
-    @DeleteMapping("/{id}")
+  @DeleteMapping("/{id}")
     public String deleteFormula(@PathVariable int id) {
-        try {
-            return formulaService.deleteFormula(id);
-        } catch (ResponseStatusException re) {
-            log.error(re.getMessage());
-            throw new ResponseStatusException(re.getStatus(), re.getMessage());
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    try {
+      return formulaService.deleteFormula(id);
+    } catch (ResponseStatusException re) {
+      log.error(re.getMessage());
+      throw new ResponseStatusException(re.getStatus(), re.getMessage());
+    } catch (Exception e) {
+            
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+  }
 }

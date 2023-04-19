@@ -1,9 +1,12 @@
 package com.example.riskanalysis.controller;
 
+import com.example.riskanalysis.entity.RiskScoreCap;
+import com.example.riskanalysis.entity.RiskScoreLevel;
+import com.example.riskanalysis.requestobject.RiskScoreCapModel;
+import com.example.riskanalysis.service.RiskScoreCapService;
+import com.example.riskanalysis.service.RiskScoreLevelService;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,111 +21,123 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.riskanalysis.entity.RiskScoreCap;
-import com.example.riskanalysis.entity.RiskScoreLevel;
-import com.example.riskanalysis.requestObject.RiskScoreCapModel;
-import com.example.riskanalysis.service.RiskScoreCapService;
-import com.example.riskanalysis.service.RiskScoreLevelService;
-
+/**
+ * creating RiskScoreCapController class to perform crud operations.
+ */
 @RestController
 @RequestMapping("/api/v1/risk-score-caps")
 public class RiskScoreCapController {
-    final static Logger log = LoggerFactory.getLogger(RiskScoreCapController.class);
-    @Autowired
+  final Logger log = LoggerFactory.getLogger(RiskScoreCapController.class);
+  @Autowired
     private RiskScoreCapService riskScoreCapService;
-    @Autowired
+  @Autowired
     private RiskScoreLevelService riskScoreLevelService;
+  /**
+ * getting risk score cap using id.
 
-    /**
      * @param id
+     * 
      * @return RiskScoreCap
      */
-    @GetMapping("/{id}")
+  @GetMapping("/{id}")
     public RiskScoreCap getRiskScoreCap(@PathVariable int id) {
-        try {
-            return riskScoreCapService.getRiskScoreCap(id);
-        } catch (ResponseStatusException re) {
-            log.error(re.getMessage());
-            throw new ResponseStatusException(re.getStatus(), re.getMessage());
-        } catch (Exception e) {
-            // TODO: handle exception
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
-
+    try {
+      return riskScoreCapService.getRiskScoreCap(id);
+    } catch (ResponseStatusException re) {
+      log.error(re.getMessage());
+      throw new ResponseStatusException(re.getStatus(), re.getMessage());
+    } catch (Exception e) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
-    /**
-     * @return List<RiskScoreCap>
+  }
+
+  /**
+     * getting list of risk score caps.
+
+     * @return List(RiskScoreCap)
      */
-    @GetMapping("")
+  @GetMapping("")
     public List<RiskScoreCap> getListofRiskScoreCaps() {
-        try {
-            return riskScoreCapService.getAllRiskScoreCaps();
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    try {
+      return riskScoreCapService.getAllRiskScoreCaps();
+    } catch (Exception e) {     
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+  }
 
-    /**
-     * @param riskScoreCap
-     * @return RiskScoreCap
-     */
-    @PostMapping("")
-    public RiskScoreCap createRiskScoreCap(@Valid @RequestBody RiskScoreCapModel riskScoreCapModel) {
-        try {
-            RiskScoreLevel riskScoreLevel = riskScoreLevelService
+  /**
+   * creating new risk score cap data.
+
+   * @param riskScoreCapModel
+   * 
+
+   * @return
+   * 
+   */
+  @PostMapping("")
+    public RiskScoreCap createRiskScoreCap(
+        @Valid @RequestBody RiskScoreCapModel riskScoreCapModel) {
+    try {
+      RiskScoreLevel riskScoreLevel = riskScoreLevelService
                     .getRiskScoreLevel(riskScoreCapModel.getRiskScoreLevelId());
-            RiskScoreCap riskScoreCap = new RiskScoreCap();
-            riskScoreCap.setCappedScore(riskScoreCapModel.getCappedScore());
-            riskScoreCap.setConditionCnt(riskScoreCapModel.getConditionCnt());
-            riskScoreCap.setRiskScoreLevel(riskScoreLevel);
-            return riskScoreCapService.addRiskScoreCap(riskScoreCap);
-        } catch (ResponseStatusException re) {
-            log.error(re.getMessage());
-            throw new ResponseStatusException(re.getStatus(), re.getMessage());
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+      RiskScoreCap riskScoreCap = new RiskScoreCap();
+      riskScoreCap.setCappedScore(riskScoreCapModel.getCappedScore());
+      riskScoreCap.setConditionCnt(riskScoreCapModel.getConditionCnt());
+      riskScoreCap.setRiskScoreLevel(riskScoreLevel);
+      return riskScoreCapService.addRiskScoreCap(riskScoreCap);
+    } catch (ResponseStatusException re) {
+      log.error(re.getMessage());
+      throw new ResponseStatusException(re.getStatus(), re.getMessage());
+    } catch (Exception e) {
+           
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+  } 
+  /**
+  * updating risk score cap using id.
 
-    /**
-     * @param id
-     * @param riskScoreCap
-     * @return RiskScoreCap
-     */
-    @PatchMapping("/{id}")
-    public RiskScoreCap patchRiskScoreCap(@PathVariable int id, @Valid @RequestBody RiskScoreCap riskScoreCap) {
-        try {
-            return riskScoreCapService.updateRiskScoreCap(id, riskScoreCap);
-        } catch (ResponseStatusException re) {
-            log.error(re.getMessage());
-            throw new ResponseStatusException(re.getStatus(), re.getMessage());
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+  * @param id unique id.
+
+  * @param riskScoreCap updated data.
+
+  * @return risk score cap object.
+  */
+  @PatchMapping("/{id}")
+  public RiskScoreCap patchRiskScoreCap(
+      @PathVariable int id, @Valid @RequestBody RiskScoreCap riskScoreCap) {
+    try {
+      return riskScoreCapService.updateRiskScoreCap(id, riskScoreCap);
+    } catch (ResponseStatusException re) {
+      log.error(re.getMessage());
+      throw new ResponseStatusException(re.getStatus(), re.getMessage());
+    } catch (Exception e) {
+            
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+  }
 
-    /**
+  /**
+     * delete risk score cap using id.
+
      * @param id
+     * 
      * @return String
      */
-    @DeleteMapping("/{id}")
+  @DeleteMapping("/{id}")
     public String deleteRiskScoreCap(@PathVariable int id) {
-        try {
-            return riskScoreCapService.deleteRiskScoreCap(id);
-        } catch (ResponseStatusException re) {
-            log.error(re.getMessage());
-            throw new ResponseStatusException(re.getStatus(), re.getMessage());
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    try {
+      return riskScoreCapService.deleteRiskScoreCap(id);
+    } catch (ResponseStatusException re) {
+      log.error(re.getMessage());
+      throw new ResponseStatusException(re.getStatus(), re.getMessage());
+    } catch (Exception e) {
+           
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+  }
 }

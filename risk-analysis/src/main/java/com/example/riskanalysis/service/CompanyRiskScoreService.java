@@ -1,75 +1,86 @@
 package com.example.riskanalysis.service;
 
+import com.example.riskanalysis.entity.CompanyRiskScore;
+import com.example.riskanalysis.repository.CompanyRiskScoreRepo;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.riskanalysis.entity.CompanyRiskScore;
-import com.example.riskanalysis.repository.CompanyRiskScoreRepo;
-
+/**
+ * service class which is used to help controller class to perform operations.
+ */
 @Service
 public class CompanyRiskScoreService {
-    @Autowired
+  @Autowired
     private CompanyRiskScoreRepo companyRiskScoreRepo;
 
-    /**
+  /**
+   * get company data using id.
+
      * @param id
+     * 
      * @return CompanyRiskScore
      */
-    public CompanyRiskScore getCompanyRiskScore(int id) {
-        return companyRiskScoreRepo.findById(id).orElseThrow(
+  public CompanyRiskScore getCompanyRiskScore(int id) {
+    return companyRiskScoreRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Company Risk Score Not Found by this id " + id));
-    }
+  }
 
-    /**
+  /**
+     * save valid company data .
+
      * @param companyRiskScore
+     * 
      * @return CompanyRiskScore
      */
-    public CompanyRiskScore addCompanyRiskScore(@Valid CompanyRiskScore companyRiskScore) {
-        return companyRiskScoreRepo.save(companyRiskScore);
-    }
+  public CompanyRiskScore addCompanyRiskScore(@Valid CompanyRiskScore companyRiskScore) {
+    return companyRiskScoreRepo.save(companyRiskScore);
+  }
 
-    /**
-     * @return List<CompanyRiskScore>
+  /**
+     * get list of company data.
+
+     * @return List(CompanyRiskScore)
      */
-    public List<CompanyRiskScore> getAllCompanyRiskScores() {
+  public List<CompanyRiskScore> getAllCompanyRiskScores() {
 
-        return (List<CompanyRiskScore>) companyRiskScoreRepo.findAll();
-    }
+    return (List<CompanyRiskScore>) companyRiskScoreRepo.findAll();
+  }
 
-    /**
-     * @param id
-     * @param companyRiskScore
+  /**
+      * update company data using id and valid updated data.
+
+     * @param id unique id.
+     
+     * @param companyRiskScore updated data.
      * @return CompanyRiskScore
      */
-    public CompanyRiskScore updateCompanyRiskScore(int id, CompanyRiskScore companyRiskScore) {
-        CompanyRiskScore existingCompanyRiskScore = companyRiskScoreRepo.findById(id).orElseThrow(
+  public CompanyRiskScore updateCompanyRiskScore(int id, CompanyRiskScore companyRiskScore) {
+    CompanyRiskScore existingCompanyRiskScore = companyRiskScoreRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Company Risk Score Not Found by this id " + id));
-        existingCompanyRiskScore.setDimensionScores(companyRiskScore.getDimensionScores());
-        // existingCompanyRiskScore.setInformationSecurity(companyRiskScore.getInformationSecurity());
-        // existingCompanyRiskScore.setConduct(companyRiskScore.getConduct());
-        // existingCompanyRiskScore.setResilience(companyRiskScore.getResilience());
+    existingCompanyRiskScore.setDimensionScores(companyRiskScore.getDimensionScores());
         ;
-        companyRiskScoreRepo.save(existingCompanyRiskScore);
-        return existingCompanyRiskScore;
-    }
+    companyRiskScoreRepo.save(existingCompanyRiskScore);
+    return existingCompanyRiskScore;
+  }
 
-    /**
+  /**
+     * delete comapny data using id and return successful message.
+
      * @param id
+     * 
      * @return String message
      */
-    public String deleteCompanyRiskScore(int id) {
-        CompanyRiskScore companyRiskScore = companyRiskScoreRepo.findById(id).orElseThrow(
+  public String deleteCompanyRiskScore(int id) {
+    CompanyRiskScore companyRiskScore = companyRiskScoreRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Company Risk Score Not Found by this id " + id));
-        companyRiskScoreRepo.delete(companyRiskScore);
-        return "Successfully deleted Company Risk Score by this id " + id;
-    }
+    companyRiskScoreRepo.delete(companyRiskScore);
+    return "Successfully deleted Company Risk Score by this id " + id;
+  }
 }

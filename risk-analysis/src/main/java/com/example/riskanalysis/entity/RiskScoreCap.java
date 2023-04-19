@@ -13,6 +13,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+/**
+ * entity class which represents risk_capped_score table .
+ */
 
 @Entity
 @Table(name = "risk_capped_score")
@@ -20,23 +23,23 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class RiskScoreCap {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
     private int id;
 
-    @Column(name = "condition_count")
-    @NonNull
-    @NotNull(message = "Condition Count is mandatory")
+  @Column(name = "condition_count")
+ 
+  @NotNull(message = "Condition Count is mandatory")
     private int conditionCnt;
+    
+  @Column(name = "capped_score")
 
-    @Column(name = "capped_score")
-    @NonNull
-    @NotNull(message = "Capped Score is mandatory")
+  @NotNull(message = "Capped Score is mandatory")
     private double cappedScore;
 
-    @NonNull
-    @JoinColumn(name = "condition_level")
-    @ManyToOne
+  @NonNull
+  @JoinColumn(name = "condition_level")
+  @ManyToOne
     private RiskScoreLevel riskScoreLevel;
 }

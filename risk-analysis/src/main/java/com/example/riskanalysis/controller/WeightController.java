@@ -1,9 +1,9 @@
 package com.example.riskanalysis.controller;
 
+import com.example.riskanalysis.entity.Weight;
+import com.example.riskanalysis.service.WeightService;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,100 +18,115 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.riskanalysis.entity.Weight;
-import com.example.riskanalysis.service.WeightService;
-
+/**
+ * WeightController class used to perform crud operations on entity.
+ */
 @RestController
 @RequestMapping("/api/v1/weights")
 public class WeightController {
-    final static Logger log = LoggerFactory.getLogger(WeightController.class);
-    @Autowired
+  final Logger log = LoggerFactory.getLogger(WeightController.class);
+  @Autowired
     private WeightService weightService;
 
-    /**
+  /**
+     * get weight by unique id.
+
      * @param id
+     * 
      * @return Weight
      */
-    @GetMapping("/{id}")
+  @GetMapping("/{id}")
     public Weight getWeight(@PathVariable int id) {
-        try {
-            return weightService.getWeight(id);
-        } catch (ResponseStatusException re) {
-            log.error(re.getMessage());
-            throw new ResponseStatusException(re.getStatus(), re.getMessage());
-        } catch (Exception e) {
-            // TODO: handle exception
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
-
+    try {
+      return weightService.getWeight(id);
+    } catch (ResponseStatusException re) {
+      log.error(re.getMessage());
+      throw new ResponseStatusException(re.getStatus(), re.getMessage());
+    } catch (Exception e) {
+         
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
-    /**
-     * @return List<Weight>
+  }
+
+  /**
+     * get list of weights.
+
+     * @return List(Weight)
      */
-    @GetMapping("")
+  @GetMapping("")
     public List<Weight> getListofWeights() {
-        try {
-            return weightService.getAllWeights();
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    try {
+      return weightService.getAllWeights();
+    } catch (Exception e) {
+          
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+  }
 
-    /**
+  /**
+     * create new weight.
+
      * @param weight
+     * 
      * @return Weight
      */
-    @PostMapping("")
+  @PostMapping("")
     public Weight createWeight(@Valid @RequestBody Weight weight) {
-        try {
-            return weightService.addWeight(weight);
-        } catch (ResponseStatusException re) {
-            log.error(re.getMessage());
-            throw new ResponseStatusException(re.getStatus(), re.getMessage());
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    try {
+      return weightService.addWeight(weight);
+    } catch (ResponseStatusException re) {
+      log.error(re.getMessage());
+      throw new ResponseStatusException(re.getStatus(), re.getMessage());
+    } catch (Exception e) {
+            
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+  }
 
-    /**
+  /**
+     * update weight using id.
+
      * @param id
+     * 
      * @param weight
+     * 
      * @return Weight
      */
-    @PatchMapping("/{id}")
+  @PatchMapping("/{id}")
     public Weight patchWeight(@PathVariable int id, @Valid @RequestBody Weight weight) {
-        try {
-            return weightService.updateWeight(id, weight);
-        } catch (ResponseStatusException re) {
-            log.error(re.getMessage());
-            throw new ResponseStatusException(re.getStatus(), re.getMessage());
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    try {
+      return weightService.updateWeight(id, weight);
+    } catch (ResponseStatusException re) {
+      log.error(re.getMessage());
+      throw new ResponseStatusException(re.getStatus(), re.getMessage());
+    } catch (Exception e) {
+         
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+  }
 
-    /**
+  /**
+     * delete weight using id.
+
      * @param id
+     * 
      * @return String
      */
-    @DeleteMapping("/{id}")
+  @DeleteMapping("/{id}")
     public String deleteWeight(@PathVariable int id) {
-        try {
-            return weightService.deleteWeight(id);
-        } catch (ResponseStatusException re) {
-            log.error(re.getMessage());
-            throw new ResponseStatusException(re.getStatus(), re.getMessage());
-        } catch (Exception e) {
-            // TODO: handle exception
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    try {
+      return weightService.deleteWeight(id);
+    } catch (ResponseStatusException re) {
+      log.error(re.getMessage());
+      throw new ResponseStatusException(re.getStatus(), re.getMessage());
+    } catch (Exception e) {
+           
+      log.error(e.getMessage());
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
+  }
 }
