@@ -43,7 +43,7 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: Package
-        path: staging
+        path: staging/risk-analysis-0.0.1-SNAPSHOT.jar
 
     # - name: Publish to GitHub Packages Apache Maven
     #   run: |
