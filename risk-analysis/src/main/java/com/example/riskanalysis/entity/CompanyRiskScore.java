@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
  */
 
 @Entity
-@Table(name = "new_company_risk_score")
+@Table(name = "company_risk_score")
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor

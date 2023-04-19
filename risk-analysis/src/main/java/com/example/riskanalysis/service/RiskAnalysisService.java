@@ -103,15 +103,16 @@ public class RiskAnalysisService {
       final StaticVariableSet<Double> variableSet) {
     DoubleEvaluator doubleEvaluator = new DoubleEvaluator();
     Map<String, Object> result = new HashMap<>();
-    result.put("company_name", companyRiskScore.getCompanyName());
-
+    result.put("companyName", companyRiskScore.getCompanyName());
+    Map<String, Double> output = new HashMap<>();
     // calculating data using formulas present in formula table
     formulas.forEach(formula -> {
-      result.put(formula.getEntityName(), doubleEvaluator.evaluate(
+      output.put(formula.getEntityName(), doubleEvaluator.evaluate(
           formula.getFormula(), variableSet));
-      variableSet.set(formula.getEntityName(), (Double) result.get(
+      variableSet.set(formula.getEntityName(),  output.get(
           formula.getEntityName()));
     });
+    result.put("result", output);
     return result;
   }
 
@@ -272,6 +273,8 @@ public class RiskAnalysisService {
               + " company");
         } catch (Exception e) {
           setOfFailedCompanies.add(companyRiskScore.getCompanyId());
+          e.printStackTrace();
+          log.error(e.getMessage(), e);
         }
       }
       updatingTrasaction(analysisJobTrasaction,
