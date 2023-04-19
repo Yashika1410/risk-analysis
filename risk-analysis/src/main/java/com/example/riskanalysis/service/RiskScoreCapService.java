@@ -13,6 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Service
 public class RiskScoreCapService {
+  /**
+   * autowired risk score cap repo interface.
+   */
   @Autowired
     private RiskScoreCapRepo riskScoreCapRepo;
 
@@ -20,10 +23,10 @@ public class RiskScoreCapService {
    * get risk score cap using id.
 
      * @param id updating id.
-     * 
+     *
      * @return risk score cap object.
      */
-  public RiskScoreCap getRiskScoreCap(int id) {
+  public RiskScoreCap getRiskScoreCap(final int id) {
     return riskScoreCapRepo.findById(id).orElseThrow(
          () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 ("Risk Score Cap is not found by this id " + id)));
@@ -33,10 +36,10 @@ public class RiskScoreCapService {
    * add risk score cap.
 
    * @param riskScoreCap valid risk score cap data.
-   * 
+   *
    * @return risk score cap entity class object.
    */
-  public RiskScoreCap addRiskScoreCap(RiskScoreCap riskScoreCap) {
+  public RiskScoreCap addRiskScoreCap(final RiskScoreCap riskScoreCap) {
     return riskScoreCapRepo.save(riskScoreCap);
   }
 
@@ -55,11 +58,14 @@ public class RiskScoreCapService {
    *@param id unique risk score cap id
      * @param riskScoreCap updated data .
      * @return updated risk score cap object.
-     * @throws ResponseStatusException throws exception if risk score cap not found by id. 
+     * @throws ResponseStatusException throws exception if
+     *     risk score cap not found by id.
      */
-  public RiskScoreCap updateRiskScoreCap(int id, RiskScoreCap riskScoreCap) {
+  public RiskScoreCap updateRiskScoreCap(final int id,
+      final RiskScoreCap riskScoreCap) {
     RiskScoreCap exsistingRiskScoreCap = riskScoreCapRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                .orElseThrow(() -> new ResponseStatusException(
+                  HttpStatus.NOT_FOUND,
                         ("Risk Score Cap is not found by this id " + id)));
     exsistingRiskScoreCap.setCappedScore(riskScoreCap.getCappedScore());
     exsistingRiskScoreCap.setConditionCnt(riskScoreCap.getConditionCnt());
@@ -72,12 +78,13 @@ public class RiskScoreCapService {
 
    * @param id unique id.
    * @return string mesaage.
-   * @throws ResponseStatusException throws exception if risk score cap not found
-   *                                 by id.
+   * @throws ResponseStatusException throws
+   *     exception if risk score cap not found by id.
    */
-  public String deleteRiskScoreCap(int id) {
+  public String deleteRiskScoreCap(final int id) {
     RiskScoreCap riskScoreCap = riskScoreCapRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                .orElseThrow(
+                  () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         ("Risk Score Cap is not found by this id " + id)));
     riskScoreCapRepo.delete(riskScoreCap);
     return "Successfully deleted Risk Score Cap using id " + id;

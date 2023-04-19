@@ -22,11 +22,21 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/api/v1/risk-analysis")
 public class RiskAnalysisController {
-  final Logger log = LoggerFactory.getLogger(RiskAnalysisController.class);
+  /**
+   * log variable which used for logging.
+   */
+  private final Logger log = LoggerFactory.getLogger(
+      RiskAnalysisController.class);
 
+  /**
+   * autowired risk analysis service class.
+   */
   @Autowired
     private RiskAnalysisService riskAnalysisService;
 
+  /**
+   * create a executor service object for processing data using thread.
+   */
   private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
   /**
@@ -39,9 +49,9 @@ public class RiskAnalysisController {
     try {
       return riskAnalysisService.getOutputList();
     } catch (Exception e) {
-            
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
 
     }
 
@@ -49,8 +59,8 @@ public class RiskAnalysisController {
   /**
  * starting the process by triggering the API.
 
- * @return
- * 
+ * @return ResponseEntity object
+ *
  */
   @PostMapping("/start-process")
     public ResponseEntity<?> startProcess() {
@@ -60,9 +70,9 @@ public class RiskAnalysisController {
       });
       return ResponseEntity.accepted().body("Started Process");
     } catch (Exception e) {
-          
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
   }

@@ -25,9 +25,9 @@ public class AnalysisJobTrasactionController {
    */
   @Autowired
     private AnalysisJobTrasactionRepo analysisJobTrasactionRepo;
-    /**
-     * private log object for logging.
-     */
+  /**
+   * private log object for logging.
+   */
   private final Logger log = LoggerFactory.getLogger(
         AnalysisJobTrasactionController.class);
 

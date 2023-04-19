@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
  * interface which is used to perform crud operations on companyRiskScore.
  */
 
-public interface CompanyRiskScoreRepo extends CrudRepository<CompanyRiskScore, Integer> {
+public interface CompanyRiskScoreRepo extends CrudRepository<
+    CompanyRiskScore, Integer> {
 
 }

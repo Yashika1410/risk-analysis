@@ -11,17 +11,29 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RiskAnalysisCronJob {
+  /**
+   * autowired output repo interface.
+   */
   @Autowired
     private OutputRepo outputRepo;
+  /**
+   * autowired risk analysis service class.
+   */
   @Autowired
     private RiskAnalysisService riskAnalysisService;
 
+  /**
+   * A function which trigger every hour.
+   */
   @Scheduled(cron = "0 0 */1 * * *")
     public void cronJob() {
     System.out.println("Started Job to store data");
     riskAnalysisService.saveAnalysiedData("Cron Job");
   }
 
+  /**
+   * a function which trigger at 3:25 am.
+   */
   @Scheduled(cron = "0 25 03 * * *")
     public void emptyOutput() {
     System.out.println("empty All");

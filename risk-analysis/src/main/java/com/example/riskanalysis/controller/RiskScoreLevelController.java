@@ -25,8 +25,15 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/v1/risk-score-levels")
 public class RiskScoreLevelController {
 
-  final Logger log = LoggerFactory.getLogger(RiskScoreLevelController.class);
+  /**
+   * log variable which used for logging.
+   */
+  private final Logger log = LoggerFactory.getLogger(
+      RiskScoreLevelController.class);
 
+  /**
+   * autowired risk score level service.
+   */
   @Autowired
     private RiskScoreLevelService riskScoreLevelService;
 
@@ -34,18 +41,19 @@ public class RiskScoreLevelController {
  * get risk score level using id.
 
      * @param id
-     * 
+     *
      * @return RiskScoreLevel
      */
   @GetMapping("/{id}")
-    public RiskScoreLevel getRiskScoreLevel(@PathVariable int id) {
+    public RiskScoreLevel getRiskScoreLevel(@PathVariable final int id) {
     try {
       return riskScoreLevelService.getRiskScoreLevel(id);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
   }
@@ -60,9 +68,9 @@ public class RiskScoreLevelController {
     try {
       return riskScoreLevelService.getAllRiskScoreLevels();
     } catch (Exception e) {
-           
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
@@ -70,20 +78,21 @@ public class RiskScoreLevelController {
      * creating new risk score level.
 
      * @param riskScoreLevel
-     * 
+     *
      * @return RiskScoreLevel
      */
   @PostMapping("")
-    public RiskScoreLevel createRiskScoreLevel(@Valid @RequestBody RiskScoreLevel riskScoreLevel) {
+    public RiskScoreLevel createRiskScoreLevel(
+      @Valid @RequestBody final RiskScoreLevel riskScoreLevel) {
     try {
       return riskScoreLevelService.addRiskScoreLevel(riskScoreLevel);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-           
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
@@ -91,23 +100,24 @@ public class RiskScoreLevelController {
      * updating risk score level using id.
 
      * @param id
-     * 
+     *
      * @param riskScoreLevel
-     * 
+     *
      * @return RiskScoreLevel
      */
   @PatchMapping("/{id}")
     public RiskScoreLevel patchRiskScoreLevel(
-        @PathVariable int id, @Valid @RequestBody RiskScoreLevel riskScoreLevel) {
+        @PathVariable final int id,
+        @Valid @RequestBody final RiskScoreLevel riskScoreLevel) {
     try {
       return riskScoreLevelService.updateRiskScoreLevel(id, riskScoreLevel);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-           
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
@@ -115,20 +125,20 @@ public class RiskScoreLevelController {
      * delete risk score level using id.
 
      * @param id
-     * 
+     *
      * @return String
      */
   @DeleteMapping("/{id}")
-    public String deleteRiskScoreLevel(@PathVariable int id) {
+    public String deleteRiskScoreLevel(@PathVariable final int id) {
     try {
       return riskScoreLevelService.deleteRiskScoreLevel(id);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-           
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 }

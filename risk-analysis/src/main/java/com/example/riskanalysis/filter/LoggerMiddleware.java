@@ -17,18 +17,26 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 @Component
 public class LoggerMiddleware extends OncePerRequestFilter {
-  private Logger log = LoggerFactory.getLogger(
+  /**
+   * log variable which used for logging.
+   */
+  private final Logger log = LoggerFactory.getLogger(
             RiskAnalysisApplication.class);
-
+  /**
+   * Override method to log request parameters and
+   * response parameter once per request.
+   */
+  
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-       FilterChain filterChain)
+  protected void doFilterInternal(final HttpServletRequest request,
+       final HttpServletResponse response,
+       final FilterChain filterChain)
             throws ServletException, IOException {
 
     filterChain.doFilter(request, response);
     log.info(request.getRemoteAddr() + " - " + request.getMethod()
-                + " " + request.getRequestURI() + " " + response.getStatus() + " "
-                + HttpStatus.valueOf(response.getStatus()).getReasonPhrase());
+             + " " + request.getRequestURI() + " " + response.getStatus() + " "
+            + HttpStatus.valueOf(response.getStatus()).getReasonPhrase());
 
   }
 

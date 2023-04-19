@@ -28,17 +28,27 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CompanyRiskScore {
 
+  /**
+   * unique id.
+   */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "company_id")
     private int companyId;
- 
+
+  /**
+   * string variable that stores company name and cannot be nullable.
+   */
   @Column(name = "company_name", nullable = false)
   @NonNull
   @NotNull(message = "Company Name is mandatory")
   @NotEmpty(message = "Company Name is mandatory")
     private String companyName;
- 
+
+  /**
+   * set collection that stores company scores wrt there dimensions
+   * and cannot be nullable.
+   */
   @NotNull(message = "Dimension score is mandatory")
   @NotEmpty(message = "Dimesion score is mandatory")
   @JoinColumn(name = "dimension_score_company_id", nullable = false)

@@ -13,7 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class FormulaService {
-
+  /**
+   * autowired Formula Repo interface.
+   */
   @Autowired
     private FormulaRepo formulaRepo;
 
@@ -24,10 +26,10 @@ public class FormulaService {
      * @return Formula object
      * @throws ResponseStatusException throws exception accr to the scnerio.
      */
-  public Formula getFormula(int id) {
+  public Formula getFormula(final int id) {
     return formulaRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Formula Not Found by this id " + id));
+                HttpStatus.NOT_FOUND, "Formula Not Found by this id " + id));
   }
 
   /**
@@ -35,12 +37,15 @@ public class FormulaService {
 
      * @param formula valid data
      * @return formula
-     * @throws ResponseStatusException ({@link HttpStatus.Series},{@value String}})
+     * @throws ResponseStatusException ({@link HttpStatus.Series},
+     *     {@value String}})
      */
-  public Formula addFormula(Formula formula) {
+  public Formula addFormula(final Formula formula) {
     if (formulaRepo.existsByEntityName(formula.getEntityName())) {
-      throw new ResponseStatusException(HttpStatus.CONFLICT,
-                  "Formula already exists by " + (" this entity name " + formula.getEntityName()));
+      throw new ResponseStatusException(
+        HttpStatus.CONFLICT,
+        "Formula already exists by "
+        + (" this entity name " + formula.getEntityName()));
     }
     return formulaRepo.save(formula);
   }
@@ -58,14 +63,17 @@ public class FormulaService {
   /**
      * update formula using valid id and valid updated data.
 
+     * @param id unique id.
      * @param formula valid updated data.
      * @return updated Formula object
-     * @throws ResponseStatusException throws an exception if formula not found by id.
+     * @throws ResponseStatusException throws an exception if
+     *     formula not found by id.
      */
-  public Formula updateFormula(int id, Formula formula) {
+  public Formula updateFormula(final int id, final Formula formula) {
     Formula existingFormula = formulaRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Formula Not Found by this id " + id));
+                        HttpStatus.NOT_FOUND,
+                        "Formula Not Found by this id " + id));
     if (existingFormula.getEntityName() != formula.getEntityName()) {
       if (formulaRepo.existsByEntityName(formula.getEntityName())) {
         throw new ResponseStatusException(HttpStatus.CONFLICT,
@@ -82,13 +90,14 @@ public class FormulaService {
    * delete formula using id.
 
      * @param id unique formula id.
-     * 
+     *
      * @return String message
      */
-  public String deleteFormula(int id) {
+  public String deleteFormula(final int id) {
     Formula formula = formulaRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Formula Not Found by this id " + id));
+                        HttpStatus.NOT_FOUND,
+                        "Formula Not Found by this id " + id));
     formulaRepo.delete(formula);
     return "Successfully deleted formula by this id " + id;
   }

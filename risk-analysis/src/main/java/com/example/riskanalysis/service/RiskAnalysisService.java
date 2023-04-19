@@ -33,44 +33,74 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/** 
+/**
  * The {@link RiskAnalysisService} is a service class used for get
  * and generate analysied data of company data using some parameters.
- * 
+ *
  */
 @Service
 public class RiskAnalysisService {
+  /**
+   * variable to store magic number.
+   */
+  private static final double MAX_SCORE = 100.0;
+
+  /**
+   * autowired Company Risk Score  Repo interface.
+   */
   @Autowired
   private CompanyRiskScoreRepo companyRiskScoreRepo;
+  /**
+   * autowired Formula Repo interface.
+   */
   @Autowired
   private FormulaRepo formulaRepo;
+  /**
+   * autowired Weight Repo interface.
+   */
   @Autowired
   private WeightRepo weightRepo;
+  /**
+   * autowired Risk Score  Repo interface.
+   */
   @Autowired
   private RiskScoreCapRepo riskScoreCapRepo;
+  /**
+   * autowired Risk Score Cap Repo interface.
+   */
   @Autowired
   private RiskScoreLevelRepo riskScoreLevelRepo;
+  /**
+   * autowired Risk Score Level Repo interface.
+   */
   @Autowired
   private OutputRepo outputRepo;
+  /**
+   * autowired Risk Score  Repo interface.
+   */
   @Autowired
   private AnalysisJobTrasactionRepo analysisJobTrasactionRepo;
-
-  private static final Logger log = LoggerFactory.getLogger(RiskAnalysisService.class);
+  /**
+   * private log object for logging.
+   */
+  private final Logger log = LoggerFactory.getLogger(
+      RiskAnalysisService.class);
 
 
   /**
-   * It is used to get anlysied data using formulas and company data exists in db.
+   * It is used to get anlysied data using formulas
+   * and company data exists in db.
 
    * @param formulas represents List of Formula class object
 
    * @param companyRiskScore represents Company Risk Score Class object
 
-   * @param variableSet repesents 
+   * @param variableSet repesents
    * @return Map
    */
-  private Map<String, Object> getResultMap(List<Formula> formulas,
-       CompanyRiskScore companyRiskScore,
-       StaticVariableSet<Double> variableSet) {
+  private Map<String, Object> getResultMap(final List<Formula> formulas,
+      final CompanyRiskScore companyRiskScore,
+      final StaticVariableSet<Double> variableSet) {
     DoubleEvaluator doubleEvaluator = new DoubleEvaluator();
     Map<String, Object> result = new HashMap<>();
     result.put("company_name", companyRiskScore.getCompanyName());
@@ -87,20 +117,22 @@ public class RiskAnalysisService {
 
   /**
    * Update the Trasaction object in db according to the status of the job.
-
+   *
    * @param analysisJobTrasaction is a AnalysisJobTrasaction Class object
-
-   * @param totalCompaniesCnt is a long variable represent total number of companies
-
-   * @param setOfFailedCompanies set of id of failed companies
-
-   * @param processedCompanies count of processed comp
-
-   * @param status status of the job
+   *
+   * @param totalCompaniesCnt     is a long variable represent total number of
+   *                              companies
+   *
+   * @param setOfFailedCompanies  set of id of failed companies
+   *
+   * @param processedCompanies    count of processed comp
+   *
+   * @param status                status of the job
    */
-  private void updatingTrasaction(AnalysisJobTrasaction analysisJobTrasaction,
-      long totalCompaniesCnt, Set<Integer> setOfFailedCompanies,
-      long processedCompanies, String status) {
+  private void updatingTrasaction(
+      final AnalysisJobTrasaction analysisJobTrasaction,
+      final long totalCompaniesCnt, final Set<Integer> setOfFailedCompanies,
+      final long processedCompanies, final String status) {
     analysisJobTrasaction.setListOfFailedCompaniesId(setOfFailedCompanies);
     analysisJobTrasaction.setProcessedCompanies(processedCompanies);
     analysisJobTrasaction.setTotalCompanies(totalCompaniesCnt);
@@ -110,28 +142,31 @@ public class RiskAnalysisService {
   }
 
   /**
-  * Create a trasaction in db.
-
-  * @param triggerBy trigger by api or cron job 
-  * @return AnalysisJobTrasaction
-  */
-  private AnalysisJobTrasaction creatingNewTrasaction(String triggerBy) {
-    AnalysisJobTrasaction newAnalysisJobTrasaction = new AnalysisJobTrasaction();
-    newAnalysisJobTrasaction.setStartedAt(new Timestamp(System.currentTimeMillis()));
+   * Create a trasaction in db.
+   *
+   * @param triggerBy trigger by api or cron job
+   * @return AnalysisJobTrasaction
+   */
+  private AnalysisJobTrasaction creatingNewTrasaction(final String triggerBy) {
+    AnalysisJobTrasaction newAnalysisJobTrasaction = new AnalysisJobTrasaction(
+    );
+    newAnalysisJobTrasaction.setStartedAt(
+      new Timestamp(System.currentTimeMillis()));
     newAnalysisJobTrasaction.setTriggerBy(triggerBy);
     newAnalysisJobTrasaction.setStatus("Started");
-    AnalysisJobTrasaction analysisJobTrasaction = analysisJobTrasactionRepo.save(
+    AnalysisJobTrasaction analysisJobTrasaction =
+        analysisJobTrasactionRepo.save(
         newAnalysisJobTrasaction);
     return analysisJobTrasaction;
   }
 
   /**
    * Used to convert Map object to Output class object.
-
+   *
    * @param result map which contains analysied data
    * @return Output
    */
-  private Output mapToOutput(Map<String, Object> result) {
+  private Output mapToOutput(final Map<String, Object> result) {
     final ObjectMapper mapper = new ObjectMapper();
     result.put("timestamp", new Timestamp(System.currentTimeMillis()));
     Output output = mapper.convertValue(result, Output.class);
@@ -139,7 +174,8 @@ public class RiskAnalysisService {
   }
 
   /**
-   * It is used to calculate total risk capped score according to the company scores.
+   * It is used to calculate total risk capped score
+   * according to the company scores.
 
    * @param riskScoreCaps risk score cap class object
 
@@ -149,27 +185,30 @@ public class RiskAnalysisService {
 
    * @return int totalRiskCappedScore
    */
-  private double getTotalRiskCappedScore(List<RiskScoreCap> riskScoreCaps,
-      List<RiskScoreLevel> riskScoreLevels,
-      CompanyRiskScore companyRiskScore) {
+  private double getTotalRiskCappedScore(final List<RiskScoreCap> riskScoreCaps,
+      final List<RiskScoreLevel> riskScoreLevels,
+      final CompanyRiskScore companyRiskScore) {
     List<String> levels = new ArrayList<>();
     // getting level for each Company risk score
     for (Score score : companyRiskScore.getDimensionScores()) {
       levels.add(getLevel(riskScoreLevels, score.getScore()));
     }
 
-    double totalRiskCappedScore = 100.0;
+    double totalRiskCappedScore = MAX_SCORE;
     for (RiskScoreCap riskScoreCap : riskScoreCaps) {
-      int frequency = Collections.frequency(levels, riskScoreCap.getRiskScoreLevel().getLevel());
+      int frequency = Collections.frequency(
+          levels, riskScoreCap.getRiskScoreLevel().getLevel());
       if (riskScoreCap.getConditionCnt() == frequency) {
-        totalRiskCappedScore = Math.min(totalRiskCappedScore, riskScoreCap.getCappedScore());
+        totalRiskCappedScore = Math.min(
+          totalRiskCappedScore, riskScoreCap.getCappedScore());
       }
     }
     return totalRiskCappedScore;
   }
 
   /**
-   * It is used to get level of company scores according to the range defiend in the DB.
+   * It is used to get level of company scores according
+   * to the range defiend in the DB.
 
    * @param riskScoreLevels list of risk score level class objects
 
@@ -177,7 +216,8 @@ public class RiskAnalysisService {
 
    * @return level according to the score and range
    */
-  private String getLevel(List<RiskScoreLevel> riskScoreLevels, double value) {
+  private String getLevel(final List<RiskScoreLevel> riskScoreLevels,
+      final double value) {
     return riskScoreLevels.stream().filter(v -> Objects.equals(true, v.inRange(
         value))).findAny().orElse(
             null)
@@ -188,14 +228,17 @@ public class RiskAnalysisService {
 
    * @param triggerBy tigger by api or cronjob
    */
-  public void saveAnalysiedData(String triggerBy) {
+  public void saveAnalysiedData(final String triggerBy) {
     log.info("Data Analysis Job Started at: " + LocalDateTime.now());
-    AnalysisJobTrasaction analysisJobTrasaction = creatingNewTrasaction(triggerBy);
+    AnalysisJobTrasaction analysisJobTrasaction = creatingNewTrasaction(
+        triggerBy);
     try {
       // getting all the data from data base
       List<Weight> weights = (List<Weight>) weightRepo.findAll();
-      List<RiskScoreLevel> riskScoreLevels = (List<RiskScoreLevel>) riskScoreLevelRepo.findAll();
-      List<RiskScoreCap> riskScoreCaps = (List<RiskScoreCap>) riskScoreCapRepo.findAll();
+      List<RiskScoreLevel> riskScoreLevels = (
+          List<RiskScoreLevel>) riskScoreLevelRepo.findAll();
+      List<RiskScoreCap> riskScoreCaps = (
+          List<RiskScoreCap>) riskScoreCapRepo.findAll();
       List<Formula> formulas = (List<Formula>) formulaRepo.findAll();
       List<CompanyRiskScore> companyRiskScores = (List<CompanyRiskScore>
       ) companyRiskScoreRepo.findAll();
@@ -217,20 +260,23 @@ public class RiskAnalysisService {
 
           // getting total risk capped score and setting it
           variableSet.set("total_risk_capped_score",
-              getTotalRiskCappedScore(riskScoreCaps, riskScoreLevels, companyRiskScore));
+              getTotalRiskCappedScore(
+                riskScoreCaps, riskScoreLevels, companyRiskScore));
           // Analysing and saving result
           outputRepo.save(mapToOutput(
               getResultMap(
                   formulas, companyRiskScore, variableSet)));
           processedCompanies += 1.0;
-          log.info("Successfully Anaylised and saved data in table for " 
+          log.info("Successfully Anaylised and saved data in table for "
               + companyRiskScore.getCompanyName()
               + " company");
         } catch (Exception e) {
           setOfFailedCompanies.add(companyRiskScore.getCompanyId());
         }
       }
-      updatingTrasaction(analysisJobTrasaction, companyRiskScores.size(), setOfFailedCompanies,
+      updatingTrasaction(analysisJobTrasaction,
+          companyRiskScores.size(),
+          setOfFailedCompanies,
           processedCompanies,
           "Completed");
       log.info("Data Analysis Job Completed at: " + LocalDateTime.now());
@@ -241,8 +287,6 @@ public class RiskAnalysisService {
       log.error(e.getMessage(), e.getCause());
     }
   }
-
-  
 
   /**
    * It is used to get latest data from db for each company according

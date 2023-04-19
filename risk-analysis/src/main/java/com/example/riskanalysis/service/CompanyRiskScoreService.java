@@ -14,6 +14,9 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Service
 public class CompanyRiskScoreService {
+  /**
+   * autowired company risk score repo interface.
+   */
   @Autowired
     private CompanyRiskScoreRepo companyRiskScoreRepo;
 
@@ -21,23 +24,24 @@ public class CompanyRiskScoreService {
    * get company data using id.
 
      * @param id
-     * 
+     *
      * @return CompanyRiskScore
      */
-  public CompanyRiskScore getCompanyRiskScore(int id) {
+  public CompanyRiskScore getCompanyRiskScore(final int id) {
     return companyRiskScoreRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Company Risk Score Not Found by this id " + id));
+        HttpStatus.NOT_FOUND, "Company Risk Score Not Found by this id " + id));
   }
 
   /**
      * save valid company data .
 
      * @param companyRiskScore
-     * 
+     *
      * @return CompanyRiskScore
      */
-  public CompanyRiskScore addCompanyRiskScore(@Valid CompanyRiskScore companyRiskScore) {
+  public CompanyRiskScore addCompanyRiskScore(
+      @Valid final CompanyRiskScore companyRiskScore) {
     return companyRiskScoreRepo.save(companyRiskScore);
   }
 
@@ -55,16 +59,19 @@ public class CompanyRiskScoreService {
       * update company data using id and valid updated data.
 
      * @param id unique id.
-     
+
      * @param companyRiskScore updated data.
      * @return CompanyRiskScore
      */
-  public CompanyRiskScore updateCompanyRiskScore(int id, CompanyRiskScore companyRiskScore) {
-    CompanyRiskScore existingCompanyRiskScore = companyRiskScoreRepo.findById(id).orElseThrow(
+  public CompanyRiskScore updateCompanyRiskScore(final int id,
+      final CompanyRiskScore companyRiskScore) {
+    CompanyRiskScore existingCompanyRiskScore = companyRiskScoreRepo.findById(
+        id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Company Risk Score Not Found by this id " + id));
-    existingCompanyRiskScore.setDimensionScores(companyRiskScore.getDimensionScores());
-        ;
+                    HttpStatus.NOT_FOUND,
+                    "Company Risk Score Not Found by this id " + id));
+    existingCompanyRiskScore.setDimensionScores(
+        companyRiskScore.getDimensionScores());
     companyRiskScoreRepo.save(existingCompanyRiskScore);
     return existingCompanyRiskScore;
   }
@@ -72,14 +79,15 @@ public class CompanyRiskScoreService {
   /**
      * delete comapny data using id and return successful message.
 
-     * @param id
-     * 
+     * @param id unique id.
      * @return String message
      */
-  public String deleteCompanyRiskScore(int id) {
-    CompanyRiskScore companyRiskScore = companyRiskScoreRepo.findById(id).orElseThrow(
+  public String deleteCompanyRiskScore(final int id) {
+    CompanyRiskScore companyRiskScore =
+        companyRiskScoreRepo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Company Risk Score Not Found by this id " + id));
+            HttpStatus.NOT_FOUND,
+            "Company Risk Score Not Found by this id " + id));
     companyRiskScoreRepo.delete(companyRiskScore);
     return "Successfully deleted Company Risk Score by this id " + id;
   }

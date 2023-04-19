@@ -24,7 +24,13 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/api/v1/weights")
 public class WeightController {
-  final Logger log = LoggerFactory.getLogger(WeightController.class);
+  /**
+   * log variable which used for logging.
+   */
+  private final Logger log = LoggerFactory.getLogger(WeightController.class);
+  /**
+   * autowired weight service class.
+   */
   @Autowired
     private WeightService weightService;
 
@@ -32,19 +38,19 @@ public class WeightController {
      * get weight by unique id.
 
      * @param id
-     * 
+     *
      * @return Weight
      */
   @GetMapping("/{id}")
-    public Weight getWeight(@PathVariable int id) {
+    public Weight getWeight(@PathVariable final int id) {
     try {
       return weightService.getWeight(id);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-         
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
   }
@@ -59,9 +65,9 @@ public class WeightController {
     try {
       return weightService.getAllWeights();
     } catch (Exception e) {
-          
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
@@ -69,20 +75,20 @@ public class WeightController {
      * create new weight.
 
      * @param weight
-     * 
+     *
      * @return Weight
      */
   @PostMapping("")
-    public Weight createWeight(@Valid @RequestBody Weight weight) {
+    public Weight createWeight(@Valid @RequestBody final Weight weight) {
     try {
       return weightService.addWeight(weight);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-            
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
@@ -90,22 +96,23 @@ public class WeightController {
      * update weight using id.
 
      * @param id
-     * 
+     *
      * @param weight
-     * 
+     *
      * @return Weight
      */
   @PatchMapping("/{id}")
-    public Weight patchWeight(@PathVariable int id, @Valid @RequestBody Weight weight) {
+    public Weight patchWeight(@PathVariable final int id,
+      @Valid @RequestBody final Weight weight) {
     try {
       return weightService.updateWeight(id, weight);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-         
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
@@ -113,20 +120,20 @@ public class WeightController {
      * delete weight using id.
 
      * @param id
-     * 
+     *
      * @return String
      */
   @DeleteMapping("/{id}")
-    public String deleteWeight(@PathVariable int id) {
+    public String deleteWeight(@PathVariable final int id) {
     try {
       return weightService.deleteWeight(id);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-           
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 }

@@ -20,23 +20,47 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "analysis_job_trasactions")
 public class AnalysisJobTrasaction {
+  /**
+   * Unique id.
+   */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
     private int id;
+  /**
+   * timestamp start at.
+   */
   @Column(name = "started_at")
     private Timestamp startedAt;
+  /**
+   * timestamp that represent process end time.
+   */
   @Column(name = "ended_at")
     private Timestamp endedAt;
+  /**
+   * string that store trigger by event.
+   */
   @Column(name = "trigger_by")
     private String triggerBy;
+  /**
+   * variable that store final status of the job.
+   */
   @Column(name = "status")
     private String status;
 
+  /**
+   * collection that stores failed companies id.
+   */
   @ElementCollection
     private Set<Integer> listOfFailedCompaniesId;
+  /**
+   * variable that stores count of total companies.
+   */
   @Column(name = "total_companies")
     private long totalCompanies;
+  /**
+   * variable that stores count of processed companies.
+   */
   @Column(name = "processed_companies")
     private long processedCompanies;
 }

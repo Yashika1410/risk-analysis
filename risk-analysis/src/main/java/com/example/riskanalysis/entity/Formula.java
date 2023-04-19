@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.ColumnTransformer;
 
 /**
- * entity class which represent in formula table.   
+ * entity class which represent in formula table.
  */
 @Entity
 @Table(name = "formula")
@@ -24,17 +24,26 @@ import org.hibernate.annotations.ColumnTransformer;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Formula {
+  /**
+   * uniquie id.
+   */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
     private int id;
+  /**
+   * string variable that stores entity name and it cannot be null.
+   */
   @Column(name = "entity_name", nullable = false)
   @ColumnTransformer(write = "LOWER(?)", read = "LOWER(entity_name)")
   @NonNull
   @NotNull(message = "Entity Name is mandatory")
   @NotEmpty(message = "Entity Name is mandatory")
     private String entityName;
-  @Column(name = "formula")
+  /**
+   * string variable that stores formula and it cannot be null.
+   */
+  @Column(name = "formula", nullable = false)
   @ColumnTransformer(write = "LOWER(?)", read = "LOWER(formula)")
   @NonNull
   @NotNull(message = "Formula is mandatory")

@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
  * interface which is used to perform crud operations on RiskScoreCap Table.
  */
 
-public interface RiskScoreCapRepo extends CrudRepository<RiskScoreCap, Integer> {
+public interface RiskScoreCapRepo extends CrudRepository<
+    RiskScoreCap, Integer> {
 
 }

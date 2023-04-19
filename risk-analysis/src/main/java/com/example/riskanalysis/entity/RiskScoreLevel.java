@@ -25,15 +25,24 @@ import org.hibernate.annotations.ColumnTransformer;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class RiskScoreLevel {
+  /**
+   * uniquie id.
+   */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
     private int id;
+  /**
+   * range of the level.
+   */
   @Column(name = "score", nullable = false)
   @NonNull
   @NotNull(message = "Score is mandatory")
   @NotEmpty(message = "Score is mandatory")
     private String score;
+  /**
+   * level of the score wrt it's range.
+   */
   @Column(name = "`level`", unique = true)
   @ColumnTransformer(write = "LOWER(?)", read = "LOWER(`level`)")
   @NonNull
@@ -41,15 +50,15 @@ public class RiskScoreLevel {
   @NotEmpty(message = "Level is mandatory")
     private String level;
   /**
-     * huii.
+     * returns boolean if score exsits in it's range.
 
-     * @param value sxjs.
-     
-     * @return  xjdcd.
+     * @param value score of the company.
+     * @return  boolean
      */
-  public boolean inRange(double value) {
+  public boolean inRange(final double value) {
     String[] values = score.split("-");
-    return IntStream.range(Integer.parseInt(values[0]) - 1, Integer.parseInt(values[1]) + 1)
+    return IntStream.range(
+      Integer.parseInt(values[0]) - 1, Integer.parseInt(values[1]) + 1)
                 .anyMatch(v -> Objects.equals(v, (int) value));
 
   }

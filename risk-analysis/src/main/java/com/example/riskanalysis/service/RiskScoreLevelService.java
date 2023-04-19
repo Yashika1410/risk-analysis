@@ -13,6 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class RiskScoreLevelService {
+  /**
+   * autowired risk score level repo interface.
+   */
   @Autowired
     private RiskScoreLevelRepo riskScoreLevelRepo;
 
@@ -21,10 +24,10 @@ public class RiskScoreLevelService {
 
    * @param id unique id.
    * @return RiskScoreLevel
-   * @throws ResponseStatusException throws exception if risk score level not found
-   *                                 by id.
+   * @throws ResponseStatusException throws
+   *     exception if risk score level not found by id.
    */
-  public RiskScoreLevel getRiskScoreLevel(int id) {
+  public RiskScoreLevel getRiskScoreLevel(final int id) {
     return riskScoreLevelRepo.findById(id).orElseThrow(
       () -> new ResponseStatusException(
        HttpStatus.NOT_FOUND, "Risk Score Level not found by this id " + id));
@@ -38,7 +41,7 @@ public class RiskScoreLevelService {
   public List<RiskScoreLevel> getAllRiskScoreLevels() {
     return (List<RiskScoreLevel>) riskScoreLevelRepo.findAll();
   }
-  
+
   /**
    * save data using valid risk score level object.
 
@@ -46,10 +49,12 @@ public class RiskScoreLevelService {
    * @return risk score level object.
    * @throws ResponseStatusException throws exception if level already exists.
    */
-  public RiskScoreLevel addRiskScoreLevel(RiskScoreLevel riskScoreLevel) {
-    if (riskScoreLevelRepo.existsByLevel(riskScoreLevel.getLevel().toLowerCase())) {
+  public RiskScoreLevel addRiskScoreLevel(final RiskScoreLevel riskScoreLevel) {
+    if (riskScoreLevelRepo.existsByLevel(
+        riskScoreLevel.getLevel().toLowerCase())) {
       throw new ResponseStatusException(HttpStatus.CONFLICT,
-          "Risk Score Level already exists by " + (" this level " + riskScoreLevel.getLevel()));
+          "Risk Score Level already exists by "
+          + (" this level " + riskScoreLevel.getLevel()));
     }
     return riskScoreLevelRepo.save(riskScoreLevel);
   }
@@ -57,17 +62,23 @@ public class RiskScoreLevelService {
   /**
    * update risk score level using id and valid data .
 
+   * @param id unique id.
    * @param riskScoreLevel valid data.
    * @return RiskScoreLevel
    * @throws ResponseStatusException throws exception according to the scnerio.
-  
+
    */
-  public RiskScoreLevel updateRiskScoreLevel(int id, RiskScoreLevel riskScoreLevel) {
-    RiskScoreLevel existingRiskScoreLevel = riskScoreLevelRepo.findById(id).orElseThrow(
+  public RiskScoreLevel updateRiskScoreLevel(final int id,
+      final RiskScoreLevel riskScoreLevel) {
+    RiskScoreLevel existingRiskScoreLevel = riskScoreLevelRepo.findById(
+        id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Risk Score Level not found by this id " + id));
-    if (existingRiskScoreLevel.getLevel() != riskScoreLevel.getLevel().toLowerCase()) {
-      if (riskScoreLevelRepo.existsByLevel(riskScoreLevel.getLevel().toLowerCase())) {
+    if (existingRiskScoreLevel.getLevel() != riskScoreLevel.getLevel(
+
+    ).toLowerCase()) {
+      if (riskScoreLevelRepo.existsByLevel(
+           riskScoreLevel.getLevel().toLowerCase())) {
         throw new ResponseStatusException(HttpStatus.CONFLICT,
                         "Level already exists with different Risk Score Level");
       }
@@ -84,10 +95,10 @@ public class RiskScoreLevelService {
    * @param id unique id.
 
    * @return String
-   * @throws ResponseStatusException throws exception if risk score level not found
-   *                                 by id.
+   * @throws ResponseStatusException throws exception
+   *     if risk score level not found by id.
    */
-  public String deleteRiskScoreLevel(int id) {
+  public String deleteRiskScoreLevel(final int id) {
     RiskScoreLevel riskScoreLevel = riskScoreLevelRepo.findById(id).orElseThrow(
         () -> new ResponseStatusException(
         HttpStatus.NOT_FOUND, "Risk Score Level not found by this id " + id));

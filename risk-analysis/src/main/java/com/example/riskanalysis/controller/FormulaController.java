@@ -24,7 +24,13 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/api/v1/formulas")
 public class FormulaController {
-  final Logger log = LoggerFactory.getLogger(FormulaController.class);
+  /**
+   * log variable which used for logging.
+   */
+  private final Logger log = LoggerFactory.getLogger(FormulaController.class);
+  /**
+   * autowired formula service class.
+   */
   @Autowired
     private FormulaService formulaService;
 
@@ -32,19 +38,19 @@ public class FormulaController {
      * getting formula using id.
 
      * @param id
-     * 
+     *
      * @return Formula
      */
   @GetMapping("/{id}")
-    public Formula getFormula(@PathVariable int id) {
+    public Formula getFormula(@PathVariable final int id) {
     try {
       return formulaService.getFormula(id);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-            
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
   }
@@ -59,9 +65,9 @@ public class FormulaController {
     try {
       return formulaService.getAllFormulas();
     } catch (Exception e) {
-           
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
@@ -69,20 +75,20 @@ public class FormulaController {
      * create formula using formulaService.
 
      * @param formula
-     * 
+     *
      * @return Formula
      */
   @PostMapping("")
-    public Formula createFormula(@Valid @RequestBody Formula formula) {
+    public Formula createFormula(@Valid @RequestBody final Formula formula) {
     try {
       return formulaService.addFormula(formula);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-          
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
@@ -90,22 +96,23 @@ public class FormulaController {
      * updating formula using id.
 
      * @param id
-     * 
+     *
      * @param formula
-     * 
+     *
      * @return Formula
      */
   @PatchMapping("/{id}")
-    public Formula patchFormula(@PathVariable int id, @RequestBody Formula formula) {
+    public Formula patchFormula(@PathVariable final int id,
+      @RequestBody final Formula formula) {
     try {
       return formulaService.updateFormula(id, formula);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-            
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
@@ -113,20 +120,20 @@ public class FormulaController {
      * delete formula using id.
 
      * @param id
-     * 
+     *
      * @return String
      */
   @DeleteMapping("/{id}")
-    public String deleteFormula(@PathVariable int id) {
+    public String deleteFormula(@PathVariable final int id) {
     try {
       return formulaService.deleteFormula(id);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-            
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 }

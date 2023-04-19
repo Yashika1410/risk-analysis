@@ -8,5 +8,11 @@ import org.springframework.data.repository.CrudRepository;
  */
 
 public interface FormulaRepo extends CrudRepository<Formula, Integer> {
+  /**
+   * a method which checks if any formula exists by this entity name.
+
+   * @param entityName entity name
+   * @return boolean
+   */
   boolean existsByEntityName(String entityName);
 }

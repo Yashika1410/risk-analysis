@@ -23,21 +23,31 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class RiskScoreCap {
+  /**
+   *unique id.
+   */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
     private int id;
 
+  /**
+   * cnt to match contion occurence for a company.
+   */
   @Column(name = "condition_count")
- 
   @NotNull(message = "Condition Count is mandatory")
     private int conditionCnt;
-    
-  @Column(name = "capped_score")
 
+  /**
+   * the score to awared each company if condition matched.
+   */
+  @Column(name = "capped_score")
   @NotNull(message = "Capped Score is mandatory")
     private double cappedScore;
-
+  /**
+   * level of the score according to the range
+   * that is avaliable in risk score level table.
+   */
   @NonNull
   @JoinColumn(name = "condition_level")
   @ManyToOne

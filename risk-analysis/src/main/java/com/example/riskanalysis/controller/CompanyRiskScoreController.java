@@ -25,7 +25,14 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/v1/company-risk-scores")
 public class CompanyRiskScoreController {
 
-  final Logger log = LoggerFactory.getLogger(CompanyRiskScoreController.class);
+  /**
+   * log variable which used for logging.
+   */
+  private final Logger log = LoggerFactory.getLogger(
+      CompanyRiskScoreController.class);
+  /**
+   * autowired company risk score service class.
+   */
   @Autowired
     private CompanyRiskScoreService companyRiskScoreService;
 
@@ -33,19 +40,19 @@ public class CompanyRiskScoreController {
      * get company by id.
 
      * @param id unique id to get data
-     * 
+     *
      * @return CompanyRiskScore
      */
   @GetMapping("/{id}")
-    public CompanyRiskScore getCompanyRiskScore(@PathVariable int id) {
+    public CompanyRiskScore getCompanyRiskScore(@PathVariable final int id) {
     try {
       return companyRiskScoreService.getCompanyRiskScore(id);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-            
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
   }
@@ -60,9 +67,9 @@ public class CompanyRiskScoreController {
     try {
       return companyRiskScoreService.getAllCompanyRiskScores();
     } catch (Exception e) {
-            
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
@@ -70,21 +77,21 @@ public class CompanyRiskScoreController {
    * to create new company data.
 
      * @param companyRiskScore
-     * 
+     *
      * @return CompanyRiskScore
      */
   @PostMapping("")
 public CompanyRiskScore createCompanyRiskScore(
-        @Valid @RequestBody CompanyRiskScore companyRiskScore) {
+        @Valid @RequestBody final  CompanyRiskScore companyRiskScore) {
     try {
       return companyRiskScoreService.addCompanyRiskScore(companyRiskScore);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-            
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
@@ -92,44 +99,46 @@ public CompanyRiskScore createCompanyRiskScore(
      * update company data by using id.
 
      * @param id
-     * 
+     *
      * @param companyRiskScore
-     * 
+     *
      * @return CompanyRiskScore
      */
   @PatchMapping("/{id}")
-    public CompanyRiskScore patchCompanyRiskScore(@PathVariable int id,
-            @Valid @RequestBody CompanyRiskScore companyRiskScore) {
+    public CompanyRiskScore patchCompanyRiskScore(@PathVariable final int id,
+            @Valid @RequestBody final CompanyRiskScore companyRiskScore) {
     try {
-      return companyRiskScoreService.updateCompanyRiskScore(id, companyRiskScore);
+      return companyRiskScoreService.updateCompanyRiskScore(id,
+      companyRiskScore);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-           
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
   /**
-    * this function returns a string when company is successfully deleted from db.
+  * this function returns a string when company is successfully deleted from db.
 
-     * @param id unique id which is used to get data.
-     * @return String
-     * @throws ResponseStatusException ({@link ResponseStatusException},{@link String})
-     */
+  * @param id unique id which is used to get data.
+  * @return String
+  * @throws ResponseStatusException (
+    {@link ResponseStatusException},{@link String})
+  */
   @DeleteMapping("/{id}")
-    public String deleteCompanyRiskScore(@PathVariable int id) {
+    public String deleteCompanyRiskScore(@PathVariable final int id) {
     try {
       return companyRiskScoreService.deleteCompanyRiskScore(id);
     } catch (ResponseStatusException re) {
       log.error(re.getMessage());
       throw new ResponseStatusException(re.getStatus(), re.getMessage());
     } catch (Exception e) {
-          
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
