@@ -26,7 +26,7 @@ public class LoggerMiddleware extends OncePerRequestFilter {
    * Override method to log request parameters and
    * response parameter once per request.
    */
-  
+
   @Override
   protected void doFilterInternal(final HttpServletRequest request,
        final HttpServletResponse response,
