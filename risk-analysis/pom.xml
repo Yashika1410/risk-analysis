@@ -17,6 +17,13 @@
 		<java.version>11</java.version>
 		<slf4jVersion>1.7.36</slf4jVersion>
 	</properties>
+	<distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/Yashika1410/risk-analysis</url>
+    </repository>
+  </distributionManagement>
 	<dependencies>
 	<dependency>
 			<groupId>org.springframework.boot</groupId>
