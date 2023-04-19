@@ -10,8 +10,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 public class RiskAnalysisApplication {
+  /**
+ * .
 
-  public static void main(String[] args) {
+ * @param args .
+ */
+  public static void main(final String[] args) {
     SpringApplication.run(RiskAnalysisApplication.class, args);
   }
 

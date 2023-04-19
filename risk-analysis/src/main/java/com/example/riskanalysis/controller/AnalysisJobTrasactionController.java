@@ -20,15 +20,21 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/api/v1/trasactions")
 public class AnalysisJobTrasactionController {
+  /**
+   * autowired repo class.
+   */
   @Autowired
-    AnalysisJobTrasactionRepo analysisJobTrasactionRepo;
+    private AnalysisJobTrasactionRepo analysisJobTrasactionRepo;
+    /**
+     * private log object for logging.
+     */
   private final Logger log = LoggerFactory.getLogger(
         AnalysisJobTrasactionController.class);
 
   /**
     * when get transactions got hit it will return a list as response.
 
-    * @return list of analysis job transaction objects. 
+    * @return list of analysis job transaction objects.
     */
   @GetMapping("")
     public List<AnalysisJobTrasaction> getData() {
@@ -36,10 +42,10 @@ public class AnalysisJobTrasactionController {
       return (List<AnalysisJobTrasaction>) analysisJobTrasactionRepo.findAll();
     } catch (Exception e) {
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+      throw new ResponseStatusException(
+        HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
 
     }
 
   }
-    
 }
