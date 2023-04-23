@@ -74,9 +74,8 @@ public class RiskScoreLevelService {
         id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Risk Score Level not found by this id " + id));
-    if (existingRiskScoreLevel.getLevel() != riskScoreLevel.getLevel(
-
-    ).toLowerCase()) {
+    if (!existingRiskScoreLevel.getLevel().equals(
+        riskScoreLevel.getLevel().toLowerCase())) {
       if (riskScoreLevelRepo.existsByLevel(
            riskScoreLevel.getLevel().toLowerCase())) {
         throw new ResponseStatusException(HttpStatus.CONFLICT,

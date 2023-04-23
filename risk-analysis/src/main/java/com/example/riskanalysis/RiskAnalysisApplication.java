@@ -11,13 +11,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class RiskAnalysisApplication {
   /**
-   *
+   * protected constructor.
    */
   protected RiskAnalysisApplication() {
 
   }
   /**
    * main method.
+
    * @param args .
    */
   public static void main(final String[] args) {

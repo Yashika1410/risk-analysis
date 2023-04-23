@@ -41,7 +41,7 @@ public class FormulaService {
      *     {@value String}})
      */
   public Formula addFormula(final Formula formula) {
-    if (formulaRepo.existsByEntityName(formula.getEntityName())) {
+    if (formulaRepo.existsByEntityName(formula.getEntityName().toLowerCase())) {
       throw new ResponseStatusException(
         HttpStatus.CONFLICT,
         "Formula already exists by "
@@ -74,8 +74,10 @@ public class FormulaService {
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Formula Not Found by this id " + id));
-    if (existingFormula.getEntityName() != formula.getEntityName()) {
-      if (formulaRepo.existsByEntityName(formula.getEntityName())) {
+    if (!existingFormula.getEntityName().equals(
+        formula.getEntityName().toLowerCase())) {
+      if (formulaRepo.existsByEntityName(formula.getEntityName().toLowerCase(
+      ))) {
         throw new ResponseStatusException(HttpStatus.CONFLICT,
                         "Entity Name already exists with different formula");
       }

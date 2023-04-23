@@ -1,5 +1,6 @@
 package com.example.riskanalysis.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -8,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -51,8 +51,18 @@ public class CompanyRiskScore {
    */
   @NotNull(message = "Dimension score is mandatory")
   @NotEmpty(message = "Dimesion score is mandatory")
-  @JoinColumn(name = "dimension_score_company_id", nullable = false)
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Score> dimensionScores;
+  @OneToMany(targetEntity = com.example.riskanalysis.entity.Score.class,
+      cascade = CascadeType.ALL, fetch = FetchType.EAGER,
+      orphanRemoval = true)
+    private Set<Score> dimensionScores = new HashSet<>();
+  /**
+   * add all dimension scores.
+
+   * @param newDimensionScores set of score objects.
+   */
+  public void setDimensionScores(final Set<Score> newDimensionScores) {
+    this.dimensionScores.clear();
+    this.dimensionScores.addAll(newDimensionScores);
+  }
 
 }
