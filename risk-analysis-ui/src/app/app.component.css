@@ -1,0 +1,19 @@
+/* .navbar.navbar-inverse .navbar-header .navbar-brand {
+  display: block;
+  text-align: center;
+  float: none;
+
+}
+
+.navbar.navbar-inverse .navbar-header {
+  float: none;
+} */
+.overlay {
+  /* height: 100vh;
+  width: 100%; */
+  background-color: rgba(0, 0, 0, 0.286);
+  z-index: 2000;
+  /* top: 0;
+  left: 0;
+  position: fixed; */
+}

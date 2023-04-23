@@ -1,0 +1,37 @@
+<div class="container my-4">
+  <a align="left" href="/data">Back</a>
+  <div class="d-flex justify-content-center">
+    <form [formGroup]="resultInfo">
+
+      <table style="width: 100%">
+
+        <tr *ngIf="resFlag">
+          <p style="font-size: 25px;">Edit Formula</p>
+        </tr>
+        <tr *ngIf="!resFlag">
+          <p style="font-size: 25px;">Add Formula</p>
+        </tr>
+
+        <input type="hidden" class='form-control' formControlName="id" />
+        <tr >
+          <td>Entity Name</td>
+          <td><input type="text" class='form-control' formControlName="entityName" />
+          </td>
+        </tr>
+        <tr >
+          <td>Formula</td>
+          <td><input type="text" class='form-control ' formControlName="formula" /></td>
+        </tr>
+
+
+      </table>
+      <div align="center" style="margin-left: 10px; margin-top: 15px;">
+        <div *ngIf="!resFlag" (click)="addFormula()" style="width: 80px; height: 40px; margin-right: 10px;"
+          class="btn btn-primary">Submit</div>
+        <div *ngIf="resFlag" style="width: 80px; height: 40px; margin-right: 10px;" class="btn btn-primary"
+          (click)="editFormula()">Submit</div>
+        <a routerLink="/data" style="width: 80px; height: 40px;" class="btn btn-danger">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
