@@ -53,7 +53,6 @@ companyResults=[]
     console.log(id)
   }
   deleteCompanyRiskScore(id:number){
-    this.loadService.onLoaderVisibility();
     this.service.deleteCompanyRiskScore(id).subscribe({
       next:(value)=>{
         alert(value);
@@ -66,10 +65,9 @@ companyResults=[]
         window.location.reload()
       }
     })
-    this.loadService.offLoaderVisibility();
   }
   deleteWeight(id:number){
-    this.loadService.onLoaderVisibility();
+
     this.service.deleteWeight(id).subscribe({
       next:(value)=>{
         alert(value);
@@ -82,10 +80,10 @@ companyResults=[]
         window.location.reload()
       }
     })
-    this.loadService.offLoaderVisibility();
+    ;
   }
   deleteFormula(id:number){
-    this.loadService.onLoaderVisibility();
+
     this.service.deleteFormula(id).subscribe({
       next:(value)=>{
         alert(value);
@@ -98,10 +96,10 @@ companyResults=[]
         window.location.reload()
       }
     })
-    this.loadService.offLoaderVisibility();
+    ;
   }
   deleteRiskScoreCap(id:number){
-    this.loadService.onLoaderVisibility();
+
     this.service.deleteRiskScoreCap(id).subscribe({
       next:(value)=>{
         alert(value);
@@ -114,10 +112,8 @@ companyResults=[]
         window.location.reload()
       }
     })
-    this.loadService.offLoaderVisibility();
   }
   deleteRiskScoreLevel(id:number){
-    this.loadService.onLoaderVisibility()
     this.service.deleteRiskScoreLevel(id).subscribe({
       next:(value)=>{
         alert(value);
@@ -130,7 +126,7 @@ companyResults=[]
         window.location.reload()
       }
     })
-    this.loadService.offLoaderVisibility()
+    
 
   }
 }

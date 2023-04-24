@@ -14,9 +14,14 @@ export class LoaderServiceService {
         });
    }
    onLoaderVisibility() {
-        this.LoaderVisibilityChange.next(this.isLoaderVisible=true);
+        // this.LoaderVisibilityChange.next(
+          this.isLoaderVisible=true
+          // );
     }
-    offLoaderVisibility() {
-        this.LoaderVisibilityChange.next(this.isLoaderVisible=false);
+   async offLoaderVisibility() {
+      await new Promise(resolve =>setTimeout(resolve,1000)).then(()=>
+      // this.LoaderVisibilityChange.next(
+        this.isLoaderVisible=false)
+        // );
     }
 }

@@ -37,7 +37,6 @@ export class FormulaComponent implements OnInit {
   }
  
   addFormula(){
-    this.loadService.onLoaderVisibility()
     if (this.resultInfo.status === 'VALID') {
     this.service.createFormula(this.resultInfo.value).subscribe({
       next:(value)=>{
@@ -54,10 +53,8 @@ export class FormulaComponent implements OnInit {
      alert("Please enter Formula")
    }
  }
- this.loadService.offLoaderVisibility()
  }
   editFormula(){
-    this.loadService.onLoaderVisibility()
     if (this.resultInfo.status === 'VALID') {
       this.service.editFormula(this.resultInfo.value,this.id).subscribe({
 
@@ -75,7 +72,6 @@ export class FormulaComponent implements OnInit {
      alert("Please enter Formula")
    }
    }
-   this.loadService.offLoaderVisibility()
    }
 
 }

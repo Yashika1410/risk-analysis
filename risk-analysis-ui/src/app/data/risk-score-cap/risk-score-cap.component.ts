@@ -48,7 +48,6 @@ constructor(private route: ActivatedRoute, private service: BackendApiService, p
   }
  
   addRiskScoreCap(){
-    this.loadService.onLoaderVisibility()
     if (this.newRiskScoreCap.status === 'VALID') {
     this.service.createRiskScoreCap(this.newRiskScoreCap.value).subscribe({
       next:(value)=>{
@@ -68,10 +67,8 @@ constructor(private route: ActivatedRoute, private service: BackendApiService, p
      alert("Please enter valid risk score level id")
    }
  }
- this.loadService.offLoaderVisibility()
  }
   editRiskScoreCap(){
-    this.loadService.onLoaderVisibility();
     if (this.existingRiskScoreCap.status === 'VALID') {
       this.service.editRiskScoreCap(this.existingRiskScoreCap.value,this.id).subscribe({
 
@@ -92,6 +89,5 @@ constructor(private route: ActivatedRoute, private service: BackendApiService, p
      alert("Please enter valid risk score level")
    }
    }
-   this.loadService.offLoaderVisibility();
    }
 }

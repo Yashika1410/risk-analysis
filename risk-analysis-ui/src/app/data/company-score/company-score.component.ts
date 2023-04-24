@@ -23,7 +23,7 @@ constructor(private route: ActivatedRoute, private service: BackendApiService,
     ])
   });
   ngOnInit(): void {
-    this.loadService.onLoaderVisibility()
+    this.loadService.onLoaderVisibility();
     this.companyId = this.route.snapshot.params['companyId'];
     
     if (this.companyId != undefined){
@@ -67,7 +67,6 @@ constructor(private route: ActivatedRoute, private service: BackendApiService,
       (<FormArray><unknown>this.companyFormGroup.get('dimensionScores')).removeAt(id);
     }
   addCompanyData(){
-    this.loadService.onLoaderVisibility();
     if (this.companyFormGroup.status === 'VALID') {
     this.service.createCompanyRiskScore(this.companyFormGroup.value).subscribe({
       next:(value)=>{alert(JSON.stringify({"message":"Successfully Created Company Data","data":value}));
@@ -83,10 +82,8 @@ constructor(private route: ActivatedRoute, private service: BackendApiService,
      alert("Please enter dimension")
    }
  }
- this.loadService.offLoaderVisibility();
  }
   editCompanyData(){
-    this.loadService.onLoaderVisibility()
     if (this.companyFormGroup.status === 'VALID') {
       this.service.editCompanyRiskScore(this.companyFormGroup.value,this.companyId).subscribe({
         next:(value)=>{alert(JSON.stringify({"message":"Successfully Updated Company Data","data":value}));
@@ -103,7 +100,6 @@ constructor(private route: ActivatedRoute, private service: BackendApiService,
      alert("Please enter dimension")
    }
    }
-   this.loadService.offLoaderVisibility()
    }
    get refDimensionScores(){
   return  this.companyFormGroup.get("dimensionScores") as unknown as FormArray;

@@ -36,7 +36,6 @@ export class RiskScoreLevelComponent implements OnInit {
   }
  
   addRiskScoreLevel(){
-    this.loadService.onLoaderVisibility()
     if (this.resultInfo.status === 'VALID') {
     this.service.createRiskScoreLevel(this.resultInfo.value).subscribe({
       next:(value)=>{
@@ -53,10 +52,8 @@ export class RiskScoreLevelComponent implements OnInit {
      alert("Please enter Level")
    }
  }
- this.loadService.offLoaderVisibility()
  }
   editRiskScoreLevel(){
-    this.loadService.onLoaderVisibility()
     if (this.resultInfo.status === 'VALID') {
       this.service.editRiskScoreLevel(this.resultInfo.value,this.id).subscribe({
 
@@ -74,6 +71,5 @@ export class RiskScoreLevelComponent implements OnInit {
      alert("Please enter Level")
    }
    }
-   this.loadService.offLoaderVisibility()
    }
 }

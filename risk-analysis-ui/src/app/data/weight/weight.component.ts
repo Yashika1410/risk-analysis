@@ -37,7 +37,6 @@ public id!: number;
   }
  
   addWeight(){
-    this.loadService.onLoaderVisibility();
     if (this.resultInfo.status === 'VALID') {
     this.service.createWeight(this.resultInfo.value).subscribe(
       {
@@ -56,10 +55,8 @@ public id!: number;
      alert("Please enter Weight")
    }
  }
- this.loadService.offLoaderVisibility();
  }
   editWeight(){
-    this.loadService.onLoaderVisibility();
     if (this.resultInfo.status === 'VALID') {
       this.service.editWeight(this.resultInfo.value,this.id).subscribe(
         {
@@ -79,7 +76,6 @@ public id!: number;
      alert("Please enter Weight")
    }
    }
-   this.loadService.offLoaderVisibility();
    }
 
 }

@@ -29,10 +29,12 @@
     </div>
   </div>
 </nav>
-<div *ngIf="isLoaderVisible" class="overlay">
-  <div  class="position-fixed w-100 h-100 d-flex align-items-center justify-content-center bg-white">
+<ng-container *ngIf="isLoaderVisible">
+<div  class="overlay">
+  <div  class="position-fixed w-100 h-100 d-flex align-items-center justify-content-center bg-white" >
     <mat-progress-spinner diameter=50 mode="indeterminate" color="accent">
     </mat-progress-spinner>
   </div>
 </div>
+</ng-container>
 <router-outlet></router-outlet>
