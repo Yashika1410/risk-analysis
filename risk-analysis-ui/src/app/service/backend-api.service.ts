@@ -101,7 +101,7 @@ export class BackendApiService {
     return this.http.delete(`${environment.apiUrl}/v1/risk-score-caps/${id}`,{
       headers: this.headers, responseType: 'text'});
   }
-   getTrasactionList() {
-    return this.http.get(`${environment.apiUrl}/v1/trasactions`);
+   getTrasactionList(skip:number,limit:number) {
+    return this.http.get(`${environment.apiUrl}/v1/trasactions?skip=${skip}&limit=${limit}`);
   }
 }

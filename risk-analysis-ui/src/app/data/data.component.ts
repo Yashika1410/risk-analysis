@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendApiService } from '../service/backend-api.service';
 import { AppComponent } from '../app.component';
@@ -9,7 +9,7 @@ import { LoaderServiceService } from '../service/loader-service.service';
   templateUrl: './data.component.html',
   styleUrls: ['./data.component.css']
 })
-export class DataComponent implements OnInit {
+export class DataComponent implements OnInit, AfterViewInit {
 companyResults=[]
   weightResults=[]
   formulasResults=[]
@@ -45,10 +45,12 @@ companyResults=[]
     this.service.getRiskScoreLevelList().subscribe((res:any)=>{
       this.riskScoreLevelResults=res
     })
-    this.loadService.offLoaderVisibility();
-
-    
   }
+
+  ngAfterViewInit(): void {
+    this.loadService.offLoaderVisibility();
+  }
+
   click(id:any){
     console.log(id)
   }

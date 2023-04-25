@@ -18,8 +18,8 @@ export class LoaderServiceService {
           this.isLoaderVisible=true
           // );
     }
-   async offLoaderVisibility() {
-      await new Promise(resolve =>setTimeout(resolve,1000)).then(()=>
+   async offLoaderVisibility(ms:number=1000) {
+      await new Promise(resolve =>setTimeout(resolve,ms)).then(()=>
       // this.LoaderVisibilityChange.next(
         this.isLoaderVisible=false)
         // );

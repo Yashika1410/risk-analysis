@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendApiService } from '../service/backend-api.service';
 import { LoaderServiceService } from '../service/loader-service.service';
@@ -7,12 +7,13 @@ import { LoaderServiceService } from '../service/loader-service.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit,AfterViewInit {
   outputResults=[]
   trasactionResults=[]
   colList=new Set<string>();
   Object = Object;
   constructor(private service:BackendApiService,private route:Router,private loadService:LoaderServiceService) { }
+
   ngOnInit(): void {
     this.loadService.onLoaderVisibility();
     this.service.getAnalysiedDataList().subscribe((res:any)=>{
@@ -24,7 +25,9 @@ export class HomeComponent implements OnInit {
         })
       });
     })
+  }
+
+ ngAfterViewInit(): void {
     this.loadService.offLoaderVisibility();
-    
-  } 
+  }
 }
