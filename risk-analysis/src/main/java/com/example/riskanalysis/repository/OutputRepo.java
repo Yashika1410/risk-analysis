@@ -19,6 +19,6 @@ public interface OutputRepo extends CrudRepository<Output, Integer> {
   @Query(nativeQuery = true,
       value = ("select * from (SELECT *,  ROW_NUMBER()"
       + " over (PARTITION BY company_name ORDER BY timestamp desc)"
-      + " as `rows` FROM output_table) a where a.rows=1"))
+      + " as `rows` FROM output_table) a where a.rows=1 order by a.id"))
   List<Output> getLatestData();
 }

@@ -70,6 +70,7 @@ public class CompanyRiskScoreService {
                 () -> new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "Company Risk Score Not Found by this id " + id));
+    existingCompanyRiskScore.setCompanyName(companyRiskScore.getCompanyName());
     existingCompanyRiskScore.setDimensionScores(
         companyRiskScore.getDimensionScores());
     companyRiskScoreRepo.save(existingCompanyRiskScore);
