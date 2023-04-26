@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  frontend:
+    image: yashika1410/risk-analysis-ui:latest
+    build: ./risk-analysis-ui
+    ports:
+      - "80:80"
+    networks:
+        microservice_network:
+    depends_on:
+      - api
+
+  api:
+    image: yashika1410/risk-analysis:latest
+    build: ./risk-analysis
+    ports:
+      - "8081:8081"
+    networks:
+        microservice_network:
+    environment:
+      - spring_profiles_active=docker
+networks:
+  microservice_network:
+    ipam:
+      driver: default
