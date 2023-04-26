@@ -1,0 +1,24 @@
+<div class="container my-4">
+  <p class="h2">Output Table</p>
+  <div class="table-responsive">
+  <table class="table table-bordered" *ngIf="outputResults;else emptyOutputResults">
+    <!-- <p>Total {{results.length}} Companies</p> -->
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Company Name</th>
+      <!-- <th scope="col">Name</th>    -->
+      <th scope="col" *ngFor="let key of colList ">{{key}}</th>
+  
+    </tr>
+    <tbody *ngFor=" let result of outputResults">
+      <tr>
+        <td scope="row">{{result["id"]}}</td>
+        <td>{{result["companyName"]}}</td>
+        <td *ngFor="let key of colList">{{result['result'][key]}}</td>
+      </tr>
+  
+    </tbody>
+  </table>
+    <ng-template #emptyOutputResults class="p-2 m-2">Output Table is empty</ng-template>
+</div>
+</div>

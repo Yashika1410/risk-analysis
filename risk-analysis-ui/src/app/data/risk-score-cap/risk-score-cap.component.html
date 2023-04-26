@@ -1,0 +1,76 @@
+<div class="container my-4">
+  <a align="left" href="/data">Back</a>
+  <div class="d-flex justify-content-center">
+    <ng-container *ngIf="!resFlag">
+    <form  [formGroup]="newRiskScoreCap">
+
+      <table style="width: 100%">
+
+        <tr >
+          <p style="font-size: 25px;">Add Risk Score Cap</p>
+        </tr>
+        <tr>
+          <td>Condition Count</td>
+          <td><input type="number" class='form-control' formControlName="conditionCnt" />
+          </td>
+        </tr>
+        <tr>
+          <td>Capped Score</td>
+          <td><input type="number" class='form-control' formControlName="cappedScore" /></td>
+        </tr>
+        <tr>
+          <td>Risk Score Level Id</td>
+          <td><input type="number" class='form-control' formControlName="riskScoreLevelId"  /></td>
+        </tr>
+
+      </table>
+      <div align="center" style="margin-left: 10px; margin-top: 15px;">
+        <div  (click)="addRiskScoreCap()" style="width: 80px; height: 40px; margin-right: 10px;"
+          class="btn btn-primary">Submit</div>
+        <a routerLink="/data" style="width: 80px; height: 40px;" class="btn btn-danger">Cancel</a>
+      </div>
+    </form>
+    </ng-container>
+    <ng-container *ngIf="resFlag" >
+      <form [formGroup]="existingRiskScoreCap">
+      
+        <table style="width: 100%">
+      
+          <tr >
+                <p style="font-size: 25px;">Edit Risk Score Cap</p>
+              </tr>
+      
+          <input type="hidden" class='form-control' formControlName="id" />
+          <tr>
+            <td>Condition Count</td>
+            <td><input type="number" class='form-control' formControlName="conditionCnt" />
+            </td>
+          </tr>
+          <tr>
+            <td>Capped Score</td>
+            <input type="number" class='form-control' formControlName="cappedScore" />
+          </tr>
+          <ng-container formGroupName="riskScoreLevel">
+              <td><input type="hidden" class='form-control' formControlName="id" /></td>
+
+          <tr>
+            <td>Level</td>
+            <td><input type="text" class='form-control' formControlName="level" placeholder="Level" /></td>
+
+          </tr>
+          <tr>
+            <td>Range</td>
+              <td><input type="text" class='form-control' formControlName="score" placeholder="Range" /></td>
+          </tr>
+          </ng-container>
+      
+        </table>
+        <div align="center" style="margin-left: 10px; margin-top: 15px;">
+          <div  style="width: 80px; height: 40px; margin-right: 10px;" class="btn btn-primary"
+            (click)="editRiskScoreCap()">Submit</div>
+          <a routerLink="/data" style="width: 80px; height: 40px;" class="btn btn-danger">Cancel</a>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+</div>

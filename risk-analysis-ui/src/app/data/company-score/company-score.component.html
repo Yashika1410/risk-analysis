@@ -1,0 +1,70 @@
+<div class="container my-4">
+  <a align="left" href="/data">Back</a>
+  <div class="d-flex justify-content-center">
+    <form [formGroup]="companyFormGroup">
+
+      <table style="width: 100%">
+
+        <tr *ngIf="resFlag">
+          <p style="font-size: 25px;">Edit Company Risk Score</p>
+        </tr>
+        <tr *ngIf="!resFlag">
+          <p style="font-size: 25px;">Add Company Risk Score</p>
+        </tr>
+
+        <input type="hidden" class='form-control' formControlName="companyId" />
+        <tr>
+          <td>Name: </td>
+          <td><input type="text" class='form-control' formControlName="companyName" />
+          </td>
+        </tr>
+        <tr>
+          <td>Dimension Scores</td>
+          <td>
+            <!-- <button  class='btn btn-warning' (click)="addDimensionScoreForm()">Add Dimension Scores</button> -->
+          <div  (click)="addDimensionScoreForm()" style="width: 200px; height: 40px; margin-right: 10px;"
+            class="btn btn-warning">Add Dimension Score</div>
+          </td>
+        </tr>
+        <tr>
+          <ng-container  formArrayName="dimensionScores">
+            <div *ngFor="let _ of refDimensionScores.controls; index as i">
+            <ng-container [formGroupName]="i">
+              <input type="hidden" class='form-control' formControlName="id" />
+              <tr>
+                <td>Dimension Score {{i+1}}</td>
+                <td></td>
+                <td ><button class="btn btn-outline-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                      fill="currentColor" class="bi bi-x" viewBox="0 0 16 16" (click)="removeDimensionScoreForm(i)">
+                      <path
+                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                    </svg></button></td>
+              </tr>
+              <tr>
+                <td>Dimension</td>
+            <td><input type="text" class='form-control' formControlName="dimension" placeholder="Dimension" /></td>
+            </tr>
+            <tr>
+                <td>Score</td>
+            <td><input type="number" class='form-control' formControlName="score" placeholder="Score" /></td>
+            </tr>
+            
+            
+            </ng-container>
+            </div>
+          </ng-container>
+        </tr>
+
+
+
+      </table>
+      <div align="center" style=" margin-top: 15px;">
+        <div *ngIf="!resFlag" (click)="addCompanyData()" style="width: 80px; height: 40px; margin-right: 10px;"
+          class="btn btn-primary">Submit</div>
+        <div *ngIf="resFlag" style="width: 80px; height: 40px; margin-right: 10px;" class="btn btn-primary"
+          (click)="editCompanyData()">Submit</div>
+        <a routerLink="/data" style="width: 80px; height: 40px;" class="btn btn-danger">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

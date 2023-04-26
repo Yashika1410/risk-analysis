@@ -1,0 +1,40 @@
+<div class="container my-4">
+  <p class="h2">Trasaction Table</p>
+  <div class="table-responsive">
+  
+    <table class="table table-bordered" *ngIf="trasactionResults;else emptyTrasactionResults">
+      <!-- <p>Total {{results.length}} Companies</p> -->
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Started At</th>
+        <th scope="col">Ended At</th>
+        <th scope="col">Trigger By</th>
+        <th scope="col">Status</th>
+        <th scope="col">Failed Companies Id</th>
+        <th scope="col">Total Companies</th>
+        <th scope="col">Processed Companies</th>
+  
+      </tr>
+      <tbody *ngFor=" let result of trasactionResults">
+        <tr>
+          <td scope="row">{{result["id"]}}</td>
+          <td>{{result["startedAt"]}}</td>
+          <td>{{result["endedAt"]}}</td>
+          <td>{{result["triggerBy"]}}</td>
+          <td>{{result["status"]}}</td>
+          <td>{{result["listOfFailedCompaniesId"]}}</td>
+          <td>{{result["totalCompanies"]}}</td>
+          <td>{{result["processedCompanies"]}}</td>
+        </tr>
+  
+      </tbody>
+    </table>
+    <mat-paginator [length]="total"
+   [pageSize]="limit" 
+   [pageSizeOptions]="[5,10,20,30]"
+   [showFirstLastButtons]="true" (page)="getNextPage($event)">
+      
+    </mat-paginator>
+    <ng-template #emptyTrasactionResults class="p-2 m-2">Trasaction Table is empty</ng-template>
+  </div>
+</div>

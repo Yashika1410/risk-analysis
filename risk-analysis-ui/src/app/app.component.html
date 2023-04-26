@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid mx-2">
+    <a class="navbar-brand" href="/">Company Risk Analysis System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"  (click)="toggleCollapsed()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div
+    [class.collapse]="collapsed"
+     class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link " href="">Home </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="data">Data</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="info">Info</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="trasaction">Trasaction</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <button class="btn btn-success" (click)="triggerJob()" type="button">Trigger Job</button>
+      </form>
+    </div>
+  </div>
+</nav>
+<ng-container *ngIf="isLoaderVisible">
+<div  class="overlay">
+  <div  class="position-fixed w-100 h-100 d-flex align-items-center justify-content-center bg-white" >
+    <mat-progress-spinner diameter=50 mode="indeterminate" color="accent">
+    </mat-progress-spinner>
+  </div>
+</div>
+</ng-container>
+<router-outlet></router-outlet>

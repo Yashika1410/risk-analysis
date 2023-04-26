@@ -1,0 +1,188 @@
+<div class="container my-4">
+  <p class="h2">Company Risk Score Table</p>
+  <form align="right">
+    <a type="button" class="btn btn-success m-2" href="/data/company"  >Add Company Data</a>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-bordered" *ngIf="companyResults.length>0; else emptyCompantRiskscore" >
+      <tr>
+        <th scope="col">Company Id</th>
+        <th scope="col">Name</th>
+        <th scope="col" *ngFor="let key of colList ">{{key}}</th>
+        <th scope="col">Actions</th>
+      </tr>
+      <tbody *ngFor=" let result of companyResults">
+        <tr>
+          <td scope="row">{{result["companyId"]}}</td>
+          <td>{{result["companyName"]}}</td>
+          <td *ngFor="let key of colList">{{result['scores'][key]}}</td>
+          <td>
+            <a class="btn btn-outline-dark" href="/data/company/{{result['companyId']}}"><svg
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen"
+                viewBox="0 0 16 16">
+                <path
+                  d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+              </svg></a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-outline-danger" (click)="deleteCompanyRiskScore(result['companyId'])"><svg
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x"
+                viewBox="0 0 16 16">
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg></button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <ng-template #emptyCompantRiskscore class="p-2 m-2">Company Risk Score Table is empty</ng-template>
+  </div>
+  <p class="h2" style="margin-top: 2px; margin-bottom: -4px;">Weight Table</p>
+  <form align="right">
+    <a type="button" class="btn btn-success m-2" href="/data/weight" >Add weight</a>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-bordered" *ngIf="weightResults.length>0; else emptyWeight">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Dimension</th>
+        <th scope="col">Weight</th>
+        <th scope="col">Actions</th>
+      </tr>
+      <tbody *ngFor=" let result of weightResults">
+        <tr>
+          <td scope="row">{{result["id"]}}</td>
+          <td>{{result["dimension"]}}</td>
+          <td>{{result["weight"]}}</td>
+          <td>
+            <a class="btn btn-outline-dark" href="/data/weight/{{result['id']}}"><svg xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                <path
+                  d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+              </svg></a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-outline-danger" (click)="deleteWeight(result['id'])"><svg xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg></button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <ng-template #emptyWeight class="p-2 m-2">Weight Table is empty</ng-template>
+  </div>
+  <p class="h2">Formula Table</p>
+  <form align="right">
+    <a type="button" class="btn btn-success m-2" href="/data/formula">Add formula</a>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-bordered" *ngIf="formulasResults.length>0; else emptyFormula">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Entity Name</th>
+        <th scope="col">Formula</th>
+        <th scope="col">Actions</th>
+      </tr>
+      <tbody *ngFor=" let result of formulasResults">
+        <tr>
+          <td scope="row">{{result["id"]}}</td>
+          <td>{{result["entityName"]}}</td>
+          <td>{{result["formula"]}}</td>
+          <td>
+            <a class="btn btn-outline-dark" href="/data/formula/{{result['id']}}" ><svg xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                <path
+                  d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+              </svg></a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-outline-danger" (click)="deleteFormula(result['id'])"><svg xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg></button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <ng-template #emptyFormula class="p-2 m-2">Formula Table is empty</ng-template>
+  </div>
+
+  <p class="h2">Risk Score Cap Table</p>
+  <form align="right">
+    <a type="button" class="btn btn-success m-2" href="/data/risk-score-cap" >Add Risk Score Cap Data</a>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-bordered" *ngIf="riskScoreCapResults.length>0; else emptyRiskScoreCap">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Condition Count</th>
+        <th scope="col">Capped Score</th>
+        <th scope="col">Level</th>
+        <th scope="col">Action</th>
+      </tr>
+      <tbody *ngFor=" let result of riskScoreCapResults">
+        <tr>
+          <td scope="row">{{result["id"]}}</td>
+          <td>{{result["conditionCnt"]}}</td>
+          <td>{{result["cappedScore"]}}</td>
+          <td>{{result["riskScoreLevel"]["level"]}}</td>
+          <td>
+            <a class="btn btn-outline-dark" href="/data/risk-score-cap/{{result['id']}}"><svg xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                <path
+                  d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+              </svg></a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-outline-danger" (click)="deleteRiskScoreCap(result['id'])"><svg xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg></button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <ng-template #emptyRiskScoreCap class="p-2 m-2">Risk Score Cap Table is empty</ng-template>
+  </div>
+  <p class="h2">Risk Score Level Table</p>
+  <form align="right">
+    <a type="button" class="btn btn-success m-2"  href="/data/risk-score-level">Add Risk Score Level Data</a>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-bordered" *ngIf="riskScoreLevelResults;else emptyRiskScoreLevel">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Level</th>
+        <th scope="col">Range</th>
+        <th scope="col">Action</th>
+
+      </tr>
+      <tbody *ngFor=" let result of riskScoreLevelResults">
+        <tr>
+          <td scope="row">{{result["id"]}}</td>
+          <td>{{result["level"]}}</td>
+          <td>{{result["score"]}}</td>
+          <td>
+            <a class="btn btn-outline-dark" href="/data/risk-score-level/{{result['id']}}"><svg xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                <path
+                  d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+              </svg></a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-outline-danger" (click)="deleteRiskScoreLevel(result['id'])"><svg xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg></button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <ng-template #emptyRiskScoreLevel class="p-2 m-2">Risk Score Level Table is empty</ng-template>
+  </div>
+</div> 
