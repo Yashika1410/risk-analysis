@@ -1,1 +1,68 @@
-<p>info works!</p>
+<div class="container my-4">
+<div align="center">
+
+  <h1 id="risk-analysis-calculator">Risk Analysis Calculator</h1>
+  <h1 id="full-stack-application">Full Stack Application</h1>
+</div>
+
+
+<h2 id="features">Features</h2>
+<blockquote>
+  <p>CRUD Operations on Each Table <br>
+    Schedule Cron Jobs<br>
+    Proper Logging <br>
+    Get latest analysied data</p>
+</blockquote>
+<h2 id="problem-statement">Problem Statement</h2>
+<p>User have some raw data and wants to process it using some parameters and formulas with the help of a application,
+  which process data using a scheduled job or it can triggered by the user.<br> The parameters and formulas can be changed
+  because the processing of the data is under hit and trial process, so the raw data entities can be change as per
+  requirement. </p>
+<h3 id="assumptions-made-while-building-solution">Assumptions made while building solution</h3>
+<ul>
+  <li>The variable which are present in formula table should be present in weight and company risk score table/score
+    table.</li>
+  <li>If any new dimension is added for a single company and that dimension is used in the formula table then we need to
+    update all the remaining companies with that dimension using a default score which does not effect their analysis.
+  </li>
+</ul>
+<h3 id="limitations-of-the-solution">Limitations of the solution</h3>
+<ul>
+  <li>Total risk capped score cannot be changed because it is hard coded in the code.</li>
+</ul>
+<h3 id="techBuild">Technologies & Platforms used to build it</h3>
+<ul>
+  <li>MySQL server</li>
+  <li>Node js</li>
+  <li>Java 11</li>
+  <li>Maven</li>
+  <li>Spring-boot</li>
+  <li>Angular CLI</li>
+  <li>AWS</li>
+  <li>Docker</li>
+  <li>DockerHub</li>
+  <li>GitHub</li>
+</ul>
+
+</div>
+<!-- Footer -->
+<footer class="text-center text-white" style="background-color: #f1f1f1;">
+  <!-- Grid container -->
+  <div class="container pt-4">
+    <!-- Section: Social media -->
+    <section class="mb-4">
+
+      <!-- Github -->
+      <a class="btn btn-link btn-floating" style="font-size: xx-large;" target="_blank" href="https://github.com/Yashika1410" role="button"><fa-icon [styles]="{'color':'black'}"  [icon]="githubIcon"></fa-icon></a>
+    </section>
+    <!-- Section: Social media -->
+  </div>
+  <!-- Grid container -->
+
+  <!-- Copyright -->
+  <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    Author Yashika Jain © 2023 Copyright:
+    <a class="text-dark" href="">Risk Analysis Calculator</a>
+  </div>
+  <!-- Copyright -->
+</footer>

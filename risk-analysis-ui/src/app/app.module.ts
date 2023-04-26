@@ -18,6 +18,7 @@ import { InfoComponent } from './info/info.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
