@@ -6,8 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+import org.hibernate.annotations.ColumnTransformer;
 import lombok.Data;
+
 /**
  * User Entity class.
  */
@@ -25,6 +26,7 @@ public class User {
      * user unique email.
      */
     @Column(name = "email", nullable = false, unique = true)
+    @ColumnTransformer(write = "LOWER(?)", read = "LOWER(email)")
     private String email;
     /**
      * user hashed password.

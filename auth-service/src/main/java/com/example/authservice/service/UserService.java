@@ -31,7 +31,7 @@ public class UserService {
      * @return User object.
      */
     public User registerUser(final UserModel user) {
-        if (userRepo.existsByEmail(user.getEmail())) {
+        if (userRepo.existsByEmail(user.getEmail().toLowerCase())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
             "User Already Exits by this email");
         } else {

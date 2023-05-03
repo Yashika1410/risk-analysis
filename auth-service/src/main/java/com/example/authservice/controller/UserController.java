@@ -56,7 +56,7 @@ public class UserController {
         User newUser = userService.registerUser(user);
         AuthModel authModel = new AuthModel();
         authModel.setToken(userJwtTokenService.getToken(newUser));
-        authModel.setEmail(newUser.getEmail());
+        authModel.setEmail(newUser.getEmail().toLowerCase());
         return authModel;
     }
 
@@ -68,10 +68,10 @@ public class UserController {
     @PostMapping("/sign-in")
     public AuthModel signIn(@RequestBody final UserModel user) {
         User authUser = userService.loginUser(
-            user.getEmail(), user.getPassword());
+            user.getEmail().toLowerCase(), user.getPassword());
         AuthModel authModel = new AuthModel();
         authModel.setToken(userJwtTokenService.getToken(authUser));
-        authModel.setEmail(authUser.getEmail());
+        authModel.setEmail(authUser.getEmail().toLowerCase());
         return authModel;
     }
 

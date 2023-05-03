@@ -51,8 +51,8 @@ public class UserJwtTokenService {
         Date expiration = calendar.getTime();
 
         return Jwts.builder().setId(uuid).setSubject(
-            user.getEmail()).setIssuedAt(date).setExpiration(expiration)
-                .setIssuer(jwtIssuer).signWith(
+            user.getEmail().toLowerCase()).setIssuedAt(date).setExpiration(
+                expiration).setIssuer(jwtIssuer).signWith(
                         Keys.hmacShaKeyFor(jwtKey.getBytes()),
                         SignatureAlgorithm.HS512)
                 .compact();
