@@ -18,6 +18,18 @@ services:
         microservice_network:
     environment:
       - spring_profiles_active=docker
+    depends_on:
+      - auth
+
+  auth:
+    image: yashika1410/risk-auth-service:latest
+    ports:
+      - "8082:8082"
+    networks:
+        microservice_network:
+    environment:
+      - spring_profiles_active=docker
+
 networks:
   microservice_network:
     ipam:
