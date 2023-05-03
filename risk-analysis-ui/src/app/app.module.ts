@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DataComponent } from './data/data.component';
 import { CompanyScoreComponent } from './data/company-score/company-score.component';
 import { RiskScoreCapComponent } from './data/risk-score-cap/risk-score-cap.component';
@@ -19,6 +19,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { LoginComponent } from './login/login.component';
+import {JwtModule} from '@auth0/angular-jwt';
+import { SignUpComponent } from './sign-up/sign-up.component'
+import { HttpInterceptorInterceptor } from './service/http-interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     WeightComponent,
     FormulaComponent,
     TrasactionComponent,
-    InfoComponent
+    InfoComponent,
+    LoginComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,
@@ -43,9 +49,15 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    JwtModule
   ],
-  providers: [],
+  providers: [
+    {provide:HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorInterceptor,
+    multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,6 +3,8 @@ package com.example.riskanalysis.controller;
 import com.example.riskanalysis.entity.AnalysisJobTrasaction;
 import com.example.riskanalysis.repository.AnalysisJobTrasactionRepo;
 import com.example.riskanalysis.responsemodel.ListResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +44,8 @@ public class AnalysisJobTrasactionController {
    * @return list of analysis job transaction objects.
    */
   @GetMapping("")
+  @Operation(summary = "Get List of Trasactions",
+  security = @SecurityRequirement(name = "bearerAuth"))
     public ListResponse<AnalysisJobTrasaction> getData(
       @RequestParam(defaultValue = "0") final int skip,
       @RequestParam(defaultValue = "10") final int limit) {

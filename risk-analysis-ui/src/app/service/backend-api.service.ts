@@ -104,4 +104,10 @@ export class BackendApiService {
    getTrasactionList(skip:number,limit:number) {
     return this.http.get(`${environment.apiUrl}/v1/trasactions?skip=${skip}&limit=${limit}`);
   }
+  login(loginData:any){
+    return this.http.post(`${environment.authUrl}/v1/sign-in`,loginData);
+  }
+  register(userData:any){
+    return this.http.post(`${environment.authUrl}/v1/sign-up`,userData);
+  }
 }
