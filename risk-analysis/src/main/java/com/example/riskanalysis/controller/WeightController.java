@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,6 +44,7 @@ public class WeightController {
      * @return Weight
      */
   @GetMapping("/{id}")
+  @Operation(summary = "Get Weight by id", security = @SecurityRequirement(name = "bearerAuth"))
     public Weight getWeight(@PathVariable final int id) {
     try {
       return weightService.getWeight(id);
@@ -61,6 +64,7 @@ public class WeightController {
      * @return List(Weight)
      */
   @GetMapping("")
+  @Operation(summary = "Get List of Weights", security = @SecurityRequirement(name = "bearerAuth"))
     public List<Weight> getListofWeights() {
     try {
       return weightService.getAllWeights();
@@ -79,6 +83,7 @@ public class WeightController {
      * @return Weight
      */
   @PostMapping("")
+  @Operation(summary = "Create new Weight", security = @SecurityRequirement(name = "bearerAuth"))
     public Weight createWeight(@Valid @RequestBody final Weight weight) {
     try {
       return weightService.addWeight(weight);
@@ -102,6 +107,7 @@ public class WeightController {
      * @return Weight
      */
   @PatchMapping("/{id}")
+  @Operation(summary = "Update Weight by id", security = @SecurityRequirement(name = "bearerAuth"))
     public Weight patchWeight(@PathVariable final int id,
       @Valid @RequestBody final Weight weight) {
     try {
@@ -124,6 +130,7 @@ public class WeightController {
      * @return String
      */
   @DeleteMapping("/{id}")
+  @Operation(summary = "Delete Weight by id", security = @SecurityRequirement(name = "bearerAuth"))
     public String deleteWeight(@PathVariable final int id) {
     try {
       return weightService.deleteWeight(id);

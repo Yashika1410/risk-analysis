@@ -2,6 +2,8 @@ package com.example.riskanalysis.controller;
 
 import com.example.riskanalysis.entity.Formula;
 import com.example.riskanalysis.service.FormulaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -42,6 +44,7 @@ public class FormulaController {
      * @return Formula
      */
   @GetMapping("/{id}")
+  @Operation(summary = "Get formula by id", security = @SecurityRequirement(name = "bearerAuth"))
     public Formula getFormula(@PathVariable final int id) {
     try {
       return formulaService.getFormula(id);
@@ -61,6 +64,7 @@ public class FormulaController {
      * @return List(Formula)
      */
   @GetMapping("")
+  @Operation(summary = "Get List of Fromulas", security = @SecurityRequirement(name = "bearerAuth"))
     public List<Formula> getListofFormulas() {
     try {
       return formulaService.getAllFormulas();
@@ -79,6 +83,7 @@ public class FormulaController {
      * @return Formula
      */
   @PostMapping("")
+  @Operation(summary = "Create new Formula", security = @SecurityRequirement(name = "bearerAuth"))
     public Formula createFormula(@Valid @RequestBody final Formula formula) {
     try {
       return formulaService.addFormula(formula);
@@ -102,6 +107,7 @@ public class FormulaController {
      * @return Formula
      */
   @PatchMapping("/{id}")
+  @Operation(summary = "Update Formula by id", security = @SecurityRequirement(name = "bearerAuth"))
     public Formula patchFormula(@PathVariable final int id,
       @RequestBody final Formula formula) {
     try {
@@ -124,6 +130,7 @@ public class FormulaController {
      * @return String
      */
   @DeleteMapping("/{id}")
+  @Operation(summary = "Delete Formula by id", security = @SecurityRequirement(name = "bearerAuth"))
     public String deleteFormula(@PathVariable final int id) {
     try {
       return formulaService.deleteFormula(id);

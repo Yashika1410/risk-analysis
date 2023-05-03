@@ -9,6 +9,8 @@ import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,6 +52,7 @@ public class RiskScoreCapController {
      * @return RiskScoreCap
      */
   @GetMapping("/{id}")
+  @Operation(summary = "Get Risk Score Cap by id", security = @SecurityRequirement(name = "bearerAuth"))
     public RiskScoreCap getRiskScoreCap(@PathVariable final int id) {
     try {
       return riskScoreCapService.getRiskScoreCap(id);
@@ -69,6 +72,7 @@ public class RiskScoreCapController {
      * @return List(RiskScoreCap)
      */
   @GetMapping("")
+  @Operation(summary = "Get List of Risk Score Caps", security = @SecurityRequirement(name = "bearerAuth"))
     public List<RiskScoreCap> getListofRiskScoreCaps() {
     try {
       return riskScoreCapService.getAllRiskScoreCaps();
@@ -88,6 +92,7 @@ public class RiskScoreCapController {
    *
    */
   @PostMapping("")
+  @Operation(summary = "Create new Risk Score Cap", security = @SecurityRequirement(name = "bearerAuth"))
     public RiskScoreCap createRiskScoreCap(
         @Valid @RequestBody final RiskScoreCapModel riskScoreCapModel) {
     try {
@@ -117,6 +122,7 @@ public class RiskScoreCapController {
   * @return risk score cap object.
   */
   @PatchMapping("/{id}")
+  @Operation(summary = "Update Risk Score Cap by id", security = @SecurityRequirement(name = "bearerAuth"))
   public RiskScoreCap patchRiskScoreCap(
       @PathVariable final int id,
       @Valid @RequestBody final RiskScoreCap riskScoreCap) {
@@ -140,6 +146,7 @@ public class RiskScoreCapController {
      * @return String
      */
   @DeleteMapping("/{id}")
+  @Operation(summary = "Delete Risk Score Cap by id", security = @SecurityRequirement(name = "bearerAuth"))
     public String deleteRiskScoreCap(@PathVariable final int id) {
     try {
       return riskScoreCapService.deleteRiskScoreCap(id);

@@ -5,6 +5,8 @@ import com.example.riskanalysis.service.RiskAnalysisService;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,7 @@ public class RiskAnalysisController {
    * @return List(Output)
    */
   @GetMapping("/get-data")
+  @Operation(summary = "Get latest output Data", security = @SecurityRequirement(name = "bearerAuth"))
     public List<Output> getData() {
     try {
       return riskAnalysisService.getOutputList();
@@ -63,6 +66,8 @@ public class RiskAnalysisController {
  *
  */
   @PostMapping("/start-process")
+  
+  @Operation(summary = "Start Process", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> startProcess() {
     try {
       executor.execute(() -> {

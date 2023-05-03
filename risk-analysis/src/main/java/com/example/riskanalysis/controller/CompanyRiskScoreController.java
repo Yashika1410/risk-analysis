@@ -2,6 +2,8 @@ package com.example.riskanalysis.controller;
 
 import com.example.riskanalysis.entity.CompanyRiskScore;
 import com.example.riskanalysis.service.CompanyRiskScoreService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -44,6 +46,7 @@ public class CompanyRiskScoreController {
      * @return CompanyRiskScore
      */
   @GetMapping("/{id}")
+  @Operation(summary = "Get Company Risk Score by id", security = @SecurityRequirement(name = "bearerAuth"))
     public CompanyRiskScore getCompanyRiskScore(@PathVariable final int id) {
     try {
       return companyRiskScoreService.getCompanyRiskScore(id);
@@ -63,6 +66,7 @@ public class CompanyRiskScoreController {
      * @return List of CompanyRiskScore objects.
      */
   @GetMapping("")
+  @Operation(summary = "Get All Company Risk Scores", security = @SecurityRequirement(name = "bearerAuth"))
     public List<CompanyRiskScore> getListofCompanyRiskScores() {
     try {
       return companyRiskScoreService.getAllCompanyRiskScores();
@@ -81,6 +85,7 @@ public class CompanyRiskScoreController {
      * @return CompanyRiskScore
      */
   @PostMapping("")
+  @Operation(summary = "Create New Company Risk Score", security = @SecurityRequirement(name = "bearerAuth"))
 public CompanyRiskScore createCompanyRiskScore(
         @Valid @RequestBody final  CompanyRiskScore companyRiskScore) {
     try {
@@ -105,6 +110,7 @@ public CompanyRiskScore createCompanyRiskScore(
      * @return CompanyRiskScore
      */
   @PatchMapping("/{id}")
+  @Operation(summary = "Update Company Risk Score by id", security = @SecurityRequirement(name = "bearerAuth"))
     public CompanyRiskScore patchCompanyRiskScore(@PathVariable final int id,
             @Valid @RequestBody final CompanyRiskScore companyRiskScore) {
     try {
@@ -129,6 +135,7 @@ public CompanyRiskScore createCompanyRiskScore(
     {@link ResponseStatusException},{@link String})
   */
   @DeleteMapping("/{id}")
+  @Operation(summary = "Delete Company Risk Score by id", security = @SecurityRequirement(name = "bearerAuth"))
     public String deleteCompanyRiskScore(@PathVariable final int id) {
     try {
       return companyRiskScoreService.deleteCompanyRiskScore(id);

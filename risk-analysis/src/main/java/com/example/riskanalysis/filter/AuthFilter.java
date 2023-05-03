@@ -33,7 +33,7 @@ public class AuthFilter extends HttpFilter {
      * list of uri which can bypass auth.
      */
     private List<String> listOfUris = new ArrayList<String>(
-        Arrays.asList("/api/api-docs/**",
+        Arrays.asList("/api/v1/api-docs/**",
         "/api-docs/**",
         "/api/v1/swagger-ui/**",
         "/swagger-ui/**",

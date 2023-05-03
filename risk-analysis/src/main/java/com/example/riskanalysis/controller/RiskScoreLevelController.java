@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,6 +47,7 @@ public class RiskScoreLevelController {
      * @return RiskScoreLevel
      */
   @GetMapping("/{id}")
+  @Operation(summary = "Get Risk Score Level by id", security = @SecurityRequirement(name = "bearerAuth"))
     public RiskScoreLevel getRiskScoreLevel(@PathVariable final int id) {
     try {
       return riskScoreLevelService.getRiskScoreLevel(id);
@@ -64,6 +67,7 @@ public class RiskScoreLevelController {
      * @return List(RiskScoreLevel)
      */
   @GetMapping("")
+  @Operation(summary = "Get List of Risk Score Levels", security = @SecurityRequirement(name = "bearerAuth"))
     public List<RiskScoreLevel> getListofRiskScoreLevels() {
     try {
       return riskScoreLevelService.getAllRiskScoreLevels();
@@ -82,6 +86,7 @@ public class RiskScoreLevelController {
      * @return RiskScoreLevel
      */
   @PostMapping("")
+  @Operation(summary = "Create new Risk Score Level", security = @SecurityRequirement(name = "bearerAuth"))
     public RiskScoreLevel createRiskScoreLevel(
       @Valid @RequestBody final RiskScoreLevel riskScoreLevel) {
     try {
@@ -106,6 +111,7 @@ public class RiskScoreLevelController {
      * @return RiskScoreLevel
      */
   @PatchMapping("/{id}")
+  @Operation(summary = "Update Risk Score Level by id", security = @SecurityRequirement(name = "bearerAuth"))
     public RiskScoreLevel patchRiskScoreLevel(
         @PathVariable final int id,
         @Valid @RequestBody final RiskScoreLevel riskScoreLevel) {
@@ -129,6 +135,7 @@ public class RiskScoreLevelController {
      * @return String
      */
   @DeleteMapping("/{id}")
+  @Operation(summary = "Delete Risk Score Level by id", security = @SecurityRequirement(name = "bearerAuth"))
     public String deleteRiskScoreLevel(@PathVariable final int id) {
     try {
       return riskScoreLevelService.deleteRiskScoreLevel(id);
