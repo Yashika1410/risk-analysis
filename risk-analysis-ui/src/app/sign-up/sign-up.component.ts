@@ -14,7 +14,7 @@ export class SignUpComponent implements OnInit, AfterContentInit {
   submitted = false;
   userInfo = this.fb.group({
     email: ['', [Validators.required,Validators.email]],
-    password: ['', Validators.required,Validators.min(5)],
+    password: ['', [Validators.required,Validators.minLength(5)]],
   })
   get f() { return this.userInfo.controls; }
   
@@ -35,7 +35,8 @@ export class SignUpComponent implements OnInit, AfterContentInit {
         localStorage.setItem('email',value['email'])
         this.route.navigate(['/'])
       },
-    error:err=>alert(err)
+    error:(err)=>{alert(JSON.stringify(err.error))},
+    complete:()=>console.log("signup done")
     })
     }
   }

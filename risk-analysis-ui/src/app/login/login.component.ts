@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit, AfterContentInit {
         localStorage.setItem('email',value['email'])
         this.route.navigate(['/'])
       },
-    error:err=>alert(err)
+    error:err=>alert(JSON.stringify(err.error))
     })
     }
   }
