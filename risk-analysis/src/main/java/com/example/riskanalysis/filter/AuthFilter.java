@@ -89,7 +89,10 @@ public class AuthFilter extends HttpFilter {
             log.error(hte.getStatusText());
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");
-             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            if (hte.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            }
              PrintWriter writer = response.getWriter();
              writer.write(hte.getResponseBodyAsString());
              response.getWriter().flush();
