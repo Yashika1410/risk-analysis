@@ -19,14 +19,17 @@ public class TableBDao {
      * 
      * @param data tableA class object.
      */
-    public TableB save(final TableB data) {
+    public TableB save(final String name) {
         dao.begin(TableB.class);
         try {
-            TableB tableB = dao.getSession().get(
+            TableB tableB = new TableB();
+            tableB.setName(name);
+
+            TableB newTableB = dao.getSession().get(
                     TableB.class,
-                    dao.getSession().save(data));
+                    dao.getSession().save(tableB));
             dao.commit();
-            return tableB;
+            return newTableB;
         } catch (Throwable ex) {
             if (dao.getSession().getTransaction() != null) {
                 dao.rollback();

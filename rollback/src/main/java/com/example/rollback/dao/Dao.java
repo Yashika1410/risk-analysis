@@ -29,7 +29,7 @@ public class Dao {
 
   /**
    * to get session object.
-   * 
+   *
    * @return session object.
    */
   public Session getSession() {
@@ -39,7 +39,7 @@ public class Dao {
 
   /**
    * to begin transaction.
-   * 
+   *
    * @param clazz type of class.
    */
   @SuppressWarnings("rawtypes")
@@ -47,13 +47,16 @@ public class Dao {
     conf = new Configuration().configure().addAnnotatedClass(clazz);
 
     conf.setProperty("hibernate.connection.url",
-        System.getenv("DATABASE_URL"));
+    "jdbc:mysql://localhost:3306/testrollback");
+        // System.getenv("DATABASE_URL"));
 
     conf.setProperty("hibernate.connection.username",
-        System.getenv("DATABASE_USER_NAME"));
+    "root");
+        // System.getenv("DATABASE_USER_NAME"));
 
     conf.setProperty("hibernate.connection.password",
-        System.getenv("DATABASE_USER_PASSWORD"));
+    "root");
+        // System.getenv("DATABASE_USER_PASSWORD"));
 
     sessionFactory = conf.buildSessionFactory();
     session = sessionFactory.openSession();
