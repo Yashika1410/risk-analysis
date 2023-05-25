@@ -23,6 +23,8 @@ import { LoginComponent } from './login/login.component';
 import {JwtModule} from '@auth0/angular-jwt';
 import { SignUpComponent } from './sign-up/sign-up.component'
 import { HttpInterceptorInterceptor } from './service/http-interceptor.interceptor';
+import { CallbackComponent } from './callback/callback.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { HttpInterceptorInterceptor } from './service/http-interceptor.intercept
     TrasactionComponent,
     InfoComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ import { HttpInterceptorInterceptor } from './service/http-interceptor.intercept
     MatProgressSpinnerModule,
     MatPaginatorModule,
     FontAwesomeModule,
-    JwtModule
+    JwtModule,
+    MatIconModule
   ],
   providers: [
     {provide:HTTP_INTERCEPTORS,

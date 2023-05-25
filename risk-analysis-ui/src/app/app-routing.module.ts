@@ -12,11 +12,13 @@ import { InfoComponent } from './info/info.component';
 import { AuthGuard } from './service/auth.guard';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { CallbackComponent } from './callback/callback.component';
 
 const routes: Routes = [
    {path:"login",component:LoginComponent},
    {path:"sign-up",component:SignUpComponent},
    {path:"info",component:InfoComponent},
+   {path:"callback",component:CallbackComponent},
    {path:"",
    canActivate:[AuthGuard],
    component:HomeComponent},

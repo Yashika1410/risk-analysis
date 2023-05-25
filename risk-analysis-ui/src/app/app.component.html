@@ -26,6 +26,9 @@
       <form class="d-flex">
         <button class="btn btn-success" *ngIf="loginFlag" (click)="triggerJob()" type="button">Trigger Job</button>
         <a class="btn btn-success" *ngIf="!loginFlag" href="/login"  type="button">Login</a>
+        <a class="btn btn-primary mx-2" *ngIf="!loginFlag" href="/sign-up">
+          Sign-Up
+        </a>
         <button class="btn btn-warning" style="margin-left: 5px;" *ngIf="loginFlag" (click)="logout()" type="button">Logout</button>
       </form>
     </div>

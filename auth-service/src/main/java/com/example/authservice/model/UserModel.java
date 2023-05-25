@@ -16,4 +16,14 @@ public class UserModel {
      * User unhashed password.
      */
     private String password;
+
+    /**
+     * @param userEmail
+     * @param userPassword
+     */
+    public UserModel(final String userEmail, final String userPassword) {
+        this.email = userEmail;
+        this.password = userPassword;
+    }
+
 }

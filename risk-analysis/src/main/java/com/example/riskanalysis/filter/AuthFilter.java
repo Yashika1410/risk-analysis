@@ -40,7 +40,7 @@ public class AuthFilter extends HttpFilter {
         "/api/v1/swagger/**",
         "/swagger/**"));
     /**
-     * object of rest tenplate to send request to auth service for auth.
+     * object of rest template to send request to auth service for auth.
      */
     private RestTemplate restTemplate = new RestTemplate();
     /**

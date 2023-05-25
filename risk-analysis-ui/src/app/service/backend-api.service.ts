@@ -110,4 +110,9 @@ export class BackendApiService {
   register(userData:any){
     return this.http.post(`${environment.authUrl}/v1/sign-up`,userData);
   }
+  getToken(code: string) {
+    const tokenUrl = `${environment.authUrl}/v1/github/sign-in`; // Replace with your backend API endpoint to exchange the code for a token
+    const data = { code };
+    return this.http.post(tokenUrl, data);
+  }
 }

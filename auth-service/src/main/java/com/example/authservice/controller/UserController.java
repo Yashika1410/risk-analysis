@@ -16,8 +16,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.example.authservice.entity.User;
 import com.example.authservice.model.AuthModel;
+import com.example.authservice.model.GithubCode;
 import com.example.authservice.model.TokenModel;
 import com.example.authservice.model.UserModel;
+import com.example.authservice.service.GithubService;
 import com.example.authservice.service.UserJwtTokenService;
 import com.example.authservice.service.UserService;
 
@@ -43,9 +45,31 @@ public class UserController {
     @Autowired
     private UserJwtTokenService userJwtTokenService;
     /**
+     * Autowired User JWT token Service.
+     */
+    @Autowired
+    private GithubService githubService;
+    /**
      * variable which contains starting count of bearer token.
      */
     private static final int SUBSTRING_STARTING = 7;
+
+    private AuthModel logIn(final UserModel user) {
+        User authUser = userService.loginUser(
+                user.getEmail().toLowerCase(), user.getPassword());
+        AuthModel authModel = new AuthModel();
+        authModel.setToken(userJwtTokenService.getToken(authUser));
+        authModel.setEmail(authUser.getEmail().toLowerCase());
+        return authModel;
+    }
+
+    private AuthModel register(final UserModel user) {
+        User newUser = userService.registerUser(user);
+        AuthModel authModel = new AuthModel();
+        authModel.setToken(userJwtTokenService.getToken(newUser));
+        authModel.setEmail(newUser.getEmail().toLowerCase());
+        return authModel;
+    }
     /**
      * Method that get called when sign up got hit.
      * @param user
@@ -53,11 +77,7 @@ public class UserController {
      */
     @PostMapping("/sign-up")
     public AuthModel signUp(@RequestBody final UserModel user) {
-        User newUser = userService.registerUser(user);
-        AuthModel authModel = new AuthModel();
-        authModel.setToken(userJwtTokenService.getToken(newUser));
-        authModel.setEmail(newUser.getEmail().toLowerCase());
-        return authModel;
+        return register(user);
     }
 
     /**
@@ -67,12 +87,25 @@ public class UserController {
      */
     @PostMapping("/sign-in")
     public AuthModel signIn(@RequestBody final UserModel user) {
-        User authUser = userService.loginUser(
-            user.getEmail().toLowerCase(), user.getPassword());
-        AuthModel authModel = new AuthModel();
-        authModel.setToken(userJwtTokenService.getToken(authUser));
-        authModel.setEmail(authUser.getEmail().toLowerCase());
-        return authModel;
+        return logIn(user);
+    }
+
+
+    /**
+     * Method that get called when github sign in got hit.
+     * @param githubCode
+     * @return returns auth model which contains user email and token.
+     */
+    @PostMapping("/github/sign-in")
+    public AuthModel githubSignIn(
+        @RequestBody final GithubCode githubCode) {
+       UserModel user = githubService.getUser(githubCode.getCode());
+        if (userService.checkUserByEmail(
+               user.getEmail().toLowerCase())) {
+           return logIn(user);
+       } else {
+           return register(user);
+       }
     }
 
     /**

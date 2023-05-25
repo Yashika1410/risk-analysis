@@ -67,4 +67,12 @@ public class UserService {
         }
 
     }
+
+    /**
+     * @param email
+     * @return boolean if user exits or not.
+     */
+    public final boolean checkUserByEmail(final String email) {
+       return userRepo.existsByEmail(email);
+    }
 }
